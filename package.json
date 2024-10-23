@@ -1,0 +1,63 @@
+{
+  "name": "fall-2024-club-project",
+  "version": "1.0.0",
+  "description": "Stock tracking website built in a company like enviornment where there are different teams with students that work a specific role.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UWTechStartUpClub/Fall-2024-Club-Project.git"
+  },
+  "keywords": [
+    "Stocks",
+    "Project",
+    "club"
+  ],
+  "contributors": [
+    {
+      "name": "Celestin Ryf",
+      "email": "celestinryf@gmail.com",
+      "url": "https://github.com/celestinryf"
+    },
+    {
+      "name": "Nick Jordan",
+      "email": "njordan1@uw.edu",
+      "url": "https://github.com/NickJordan-BE"
+    },
+    {
+      "name": "Jacob Klymenko",
+      "email": "jacobkly@uw.edu",
+      "url": "https://github.com/jacobkly"
+    },
+    {
+      "name": "Luke Willis",
+      "email": "lwillis@uw.edu",
+      "url": "https://github.com/luke-willis"
+    },
+    {
+      "name": "Alex Yu"
+    },
+    {
+      "name": "Preston Sia"
+    },
+    {
+      "name": "Anthony Naydyuk"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UWTechStartUpClub/Fall-2024-Club-Project/issues"
+  },
+  "homepage": "https://github.com/UWTechStartUpClub/Fall-2024-Club-Project#readme",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "helmet": "^8.0.0",
+    "jscheckstyle": "^0.0.9",
+    "node-fetch": "^3.3.2"
+  }
+}

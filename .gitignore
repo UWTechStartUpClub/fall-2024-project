@@ -1,0 +1,23 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.env
+
+# Express.js
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# React.js
+build/
+.DS_Store
+coverage/
+
+# Common
+.cache/
+.idea/
+.vscode/
+Thumbs.db
