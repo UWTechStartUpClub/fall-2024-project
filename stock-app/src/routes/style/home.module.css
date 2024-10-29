@@ -1,0 +1,14 @@
+.glSection {
+    padding: 2px;
+    background-color: #042341;
+}
+
+.head {
+    color: #fff;
+    text-align: center;
+}
+
+.glContainer {
+    width: 85%;
+    margin: auto;
+}
