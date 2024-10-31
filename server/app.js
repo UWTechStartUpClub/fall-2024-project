@@ -1,11 +1,21 @@
 const express = require('express');
 const { getStockData } = require('./AlphaVantageService');
+const sequelize = require('sequelize')
+const dotenv = require('dotenv').config()
+const cookieParser = require('cookie-parser')
+const { pool } = require('./config/db')
+const authRoutes = require('./routes/authRoutes')
+
 const app = express();
 
+/** Middleware */
+app.use(express.json)
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
+
 app.set('view engine', 'ejs');
-
 app.use(express.static('public'));
-
+app.use('/auth', authRoutes)
 
 /** Body parser */
 const bodyParser = require('body-parser');

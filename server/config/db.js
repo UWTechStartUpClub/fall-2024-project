@@ -1,13 +1,18 @@
+const path = require('path')
+require('dotenv').config({
+    override: true,
+    path: path.join(_dirname, '.env')
+})
 const { Pool } = require('pg')
 
-const dbConfig = {
-    user: '',
-    host: '',
-    database: '',
-    password: '',
-    port: 5532,
+const db = {
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
 }
 
 const pool = new Pool(db)
 
-module.exports = pool
+module.exports = { pool }
