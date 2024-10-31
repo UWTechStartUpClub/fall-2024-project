@@ -1,8 +1,5 @@
 const path = require('path')
-require('dotenv').config({
-    override: true,
-    path: path.join(_dirname, '.env')
-})
+require('dotenv').config('.env')
 const { Pool } = require('pg')
 
 const db = {

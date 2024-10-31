@@ -1,29 +1,32 @@
+// import authRoutes from './routes/authRoutes'
+
 const express = require('express');
 const { getStockData } = require('./AlphaVantageService');
-const sequelize = require('sequelize')
-const dotenv = require('dotenv').config()
-const cookieParser = require('cookie-parser')
-const { pool } = require('./config/db')
-const authRoutes = require('./routes/authRoutes')
+const dotenv = require('dotenv').config();
+const cookieParser = require('cookie-parser');
+const { pool } = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+// const cors = require('cors')
 
 const app = express();
 
+// app.use(CORS())
 /** Middleware */
-app.use(express.json)
-app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
+// app.use(express.json())
+// // app.use(express.urlencoded({ extended: false }))
+// app.use(cookieParser())
 
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use('/auth', authRoutes)
+// app.set('view engine', 'ejs');
+// app.use(express.static('public'));
 
 /** Body parser */
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 /** helmet */
-const helmet = require('helmet');
-app.use(helmet());
+// const helmet = require('helmet');
+// app.use(helmet());
 
 
 // Define routes
@@ -48,6 +51,9 @@ app.get('/about', (req, res) => {
 app.get('/contact', (req, res) => {
   res.render('contact', { title: 'Contact Us' });
 });
+
+/** Auth routes */
+app.use('/auth', authRoutes)
 
 /** Set the port and start the server */
 const PORT = process.env.PORT || 3000;
