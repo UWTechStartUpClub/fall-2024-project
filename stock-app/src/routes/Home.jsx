@@ -3,6 +3,7 @@ import React from 'react'
 import style from './style/home.module.css';
 import BigHeader from '../components/BigHeader';
 import GLPanel from '../components/GainerLoser';
+import NavBar from '../components/NavBar';
 
 const appName = "Universal Wealth";
 
@@ -18,6 +19,7 @@ const Home = () => {
      */
     return (
         <>
+            <NavBar />
             <MainHeader />
             <GainersLosers />
             <AboutBlerb />
