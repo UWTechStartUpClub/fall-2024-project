@@ -24,6 +24,7 @@ nav {
 #nav-links {
     display: flex;
     align-items: center;
+    z-index: 1;
 }
 
 .link-style {
