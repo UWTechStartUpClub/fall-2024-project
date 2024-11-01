@@ -1,32 +1,26 @@
-// import authRoutes from './routes/authRoutes'
-
 const express = require('express');
 const { getStockData } = require('./AlphaVantageService');
-const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
-const { pool } = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
-// const cors = require('cors')
 
 const app = express();
 
-// app.use(CORS())
 /** Middleware */
-// app.use(express.json())
+app.use(express.json())
 // // app.use(express.urlencoded({ extended: false }))
-// app.use(cookieParser())
+app.use(cookieParser())
 
-// app.set('view engine', 'ejs');
-// app.use(express.static('public'));
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
 /** Body parser */
 const bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
-/** helmet */
-// const helmet = require('helmet');
-// app.use(helmet());
+// /** helmet */
+const helmet = require('helmet');
+app.use(helmet());
 
 
 // Define routes
