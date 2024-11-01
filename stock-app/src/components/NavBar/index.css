@@ -1,0 +1,128 @@
+:root {
+    --primary-color: #18191A;
+    --secondary-color: #e4e6eb;
+    --husky-purple: #32006e;
+    --spirit-purple: #4b2e83;
+    --husky-gold: #b7a57a;
+    --spirit-gold: #ffc700;
+    --border-height: 70px;
+    --border-y-padding: 5px;
+    --total-y-border: calc(var(--border-height) + var(--border-y-padding));
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--primary-color);
+    height: var(--border-height);
+    padding: var(--border-y-padding) 80px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+/* .navbar { */
+/* border-bottom: 1px solid rgba(255, 255, 255, 0.125); */
+/* } */
+
+.logo img {
+    height: 70px;
+}
+
+#nav-links {
+    display: flex;
+    align-items: center;
+    z-index: inherit;
+}
+
+.link-style {
+    padding: 5px 15px;
+    margin: 5px;
+    position: relative;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* .link-style:hover {
+    color: var(--spirit-gold);
+} */
+
+.link-style:hover::after {
+    content: "";
+    width: 60%;
+    height: 2px;
+    background: var(--secondary-color);
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+}
+
+#burger {
+    display: none;
+}
+
+#burger i {
+    color: var(--secondary-color);
+}
+
+@media screen and (max-width:770px) {
+    #nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position: fixed;
+        top: calc(var(--total-y-border) - 1px);
+        right: -300px;
+        width: 250px;
+        background-color: var(--primary-color);
+        box-shadow: 0 40px 60px rgba(0, 0, 0, 0.1);
+        pad: 40px 0 0 10px;
+        transition: 0.2s ease-in-out;
+        height: 100vh;
+        /* opacity: 0.99; */
+        /* border-left: 1px solid rgba(255, 255, 255, 0.125); */
+        /* border-bottom: 1px solid rgba(255, 255, 255, 0.125); */
+    }
+
+    #link-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position: relative;
+        top: -30px;
+        padding: 40px 0 0 10px;
+        height: 100vh;
+    }
+
+
+    .link-style {
+        margin: 10px;
+        padding: 10px;
+        transition: opacity 0.05s ease;
+        opacity: 0;
+        font-size: 1.3rem;
+    }
+
+    #nav-links.active {
+        right: 0px;
+    }
+
+    #nav-links.active .link-style {
+        opacity: 1;
+    }
+
+    #burger {
+        display: block;
+        z-index: 2;
+    }
+
+    #burger i {
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+    }
+}
