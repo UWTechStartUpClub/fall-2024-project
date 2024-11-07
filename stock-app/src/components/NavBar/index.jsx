@@ -61,10 +61,14 @@ const NavBar = () => {
             </Link>
             <div id='nav-links' ref={navRef} className={isOpen ? 'active' : ''}>
                 <div id='link-container'>
-                    <Link className='link-style' to={'/'}>About</Link>
-                    <Link className='link-style' to={'/'}>Stocks</Link>
-                    <Link className='link-style' to={'/'}>Contact</Link>
-                    <Link className='link-style' to={'/'}>Login</Link>
+                    <Link className='link-style' to={'/about'}>About</Link>
+                    <Link className='link-style' to={'/stocks/'}>Stocks</Link>
+                    <Link className='link-style' to={'/contact'}>Contact</Link>
+                    <Link className='link-style' to={'/search'}>Find Stocks</Link>
+                    <Link className='link-style' to={'/contact'}>Contact</Link>
+                    <Link className='link-style' to={'/login'}>Login</Link>
+                    {/* If user in session this will be displayed otherwise login */}
+                    <Link className='link-style' to={'/profile/:userId'}>Profile</Link>
                 </div>
             </div>
             <div id='burger' ref={burgerRef} onClick={toggleMenu}>
