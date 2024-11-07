@@ -8,16 +8,16 @@ function App() {
    <>
    <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/about" element={<About />} />
+    {/* <Route path="/about" element={<About />} />
     <Route path="/t&c" element={<TermsAndConds />} />
     <Route path="/contact" element={<Contact />} />
     <Route path="/register" element={<Register />} />
     <Route path="/login" element={<Login />} />
     <Route path="/profile/:userId" element={<UserProfile />} />
     <Route path="/stock/" element={<AllStocks />} />
-    <Route path="/stock/:symbol/:graph" element={<StockGraph />} />
+    <Route path="/stock/:symbol/graph" element={<StockGraph />} />
     <Route path="/stock/:symbol" element={<Stock />} />
-    <Route path="/search" element={<Search />} />
+    <Route path="/search" element={<Search />} /> */}
    </Routes>
    </>
   );
