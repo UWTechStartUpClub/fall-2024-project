@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useContext } from 'react';
 import AuthContext from '../../context/AuthProvider';
 import axios from '../../api/axios';
 import { Link } from 'react-router-dom';
+import './index.css';
 
 const LOGIN_URL = '/login';
 
@@ -58,63 +59,65 @@ const Login = () => {
     }
 
     return (
-        <>
-            {success ? (
-                <section>
-                    <h1>You are logged in!</h1>
-                    <br />
-                    <p>
-                        <Link to="/">Go to Home</Link>
-                    </p>
-                </section>
-            ) : (
-                <section>
-                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Login</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
-                            required
-                        />
+        <div className="formPage">
+            <>
+                {success ? (
+                    <section className="formSection">
+                        <h1>You are logged in!</h1>
+                        <br />
+                        <p>
+                            <Link to="/">Go to Home</Link>
+                        </p>
+                    </section>
+                ) : (
+                    <section className="formSection">
+                        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                        <h1>Login</h1>
+                        <form onSubmit={handleSubmit}>
+                            <label htmlFor="username">Username:</label>
+                            <input
+                                type="text"
+                                id="username"
+                                ref={userRef}
+                                autoComplete="off"
+                                onChange={(e) => setUser(e.target.value)}
+                                value={user}
+                                required
+                            />
 
 
-                        <label htmlFor="email">Email:</label>
-                        <input
-                            type="text"
-                            id="email"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                            required
-                        />
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                type="text"
+                                id="email"
+                                ref={userRef}
+                                autoComplete="off"
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
+                                required
+                            />
 
 
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
-                            required
-                        />
-                        <button>Login</button>
-                    </form>
-                    <p>
-                        Need an account?<br />
-                        <span className="line">
-                            <Link to="/register">Register</Link>
-                        </span>
-                    </p>
-                </section>
-            )}
-        </>
+                            <label htmlFor="password">Password:</label>
+                            <input
+                                type="password"
+                                id="password"
+                                onChange={(e) => setPwd(e.target.value)}
+                                value={pwd}
+                                required
+                            />
+                            <button>Login</button>
+                        </form>
+                        <p>
+                            Need an account?<br />
+                            <span className="line">
+                                <Link to="/register">Register</Link>
+                            </span>
+                        </p>
+                    </section>
+                )}
+            </>
+        </div>
     )
 }
 
