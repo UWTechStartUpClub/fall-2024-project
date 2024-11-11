@@ -5,10 +5,13 @@ import axios from '../../api/axios'
 import { Link } from 'react-router-dom';
 import './index.css';
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,24}$/;
 const REGISTER_URL = '/register';
+
+console.log("Password being tested:", "Poopgoaway1@");
+console.log("Password Validation:", PWD_REGEX.test("Poopgoaway1@"));
 
 const Register = () => {
     const userRef = useRef();
@@ -49,7 +52,7 @@ const Register = () => {
     }, [email]);
 
     useEffect(() => {
-        const result = USER_REGEX.test(pwd);
+        const result = PWD_REGEX.test(pwd);
         console.log(result);
         console.log(pwd);
         setValidPwd(result);
@@ -68,6 +71,10 @@ const Register = () => {
         const v2 = EMAIL_REGEX.test(email);
         const v3 = PWD_REGEX.test(pwd);
         if (!v1 || !v2 || !v3) {
+            console.log(v1, v2, v3);
+            console.log("User Validation: ", USER_REGEX.test(user));
+            console.log("Email Validation: ", EMAIL_REGEX.test(email));
+            console.log("Password Validation: ", PWD_REGEX.test(pwd));
             setErrMsg("Invalid Entry");
             return;
         }
@@ -174,7 +181,16 @@ const Register = () => {
                             <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                                 <FontAwesomeIcon icon={faInfoCircle} />
                                 8 to 24 characters.<br />
-                                Must include uppercase and lowercase letters, a number, and a special character.
+                                Must include uppercase and lowercase letters, a number, and a special character.<br />
+                                Allowed special characters:
+                                <span aria-label="at symbol"> @ </span>
+                                <span aria-label="dollar sign">$ </span>
+                                <span aria-label="exclamation mark">! </span>
+                                <span aria-label="percent sign">% </span>
+                                <span aria-label="asterisk">* </span>
+                                <span aria-label="question mark">? </span>
+                                <span aria-label="ampersand">& </span>
+                                <span aria-label="dash">-</span>
                             </p>
 
                             <label htmlFor="confirm_pwd">
