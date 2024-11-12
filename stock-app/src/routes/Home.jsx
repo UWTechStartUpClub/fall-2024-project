@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 //import SearchBar from '../components/SearchBar'
 import style from './style/home.module.css';
 import BigHeader from '../components/BigHeader';
 import GLPanel from '../components/GainerLoser';
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer'
 
 const appName = "Universal Wealth";
 
@@ -21,8 +22,9 @@ const Home = () => {
         <>
             <NavBar />
             <MainHeader />
-            <GainersLosers />
+            <NewsAndStats />
             <AboutBlerb />
+            <Footer />
         </>
     )
 }
@@ -47,15 +49,21 @@ const MainHeader = () => {
     );
 }
 
-const GainersLosers = () => {
+const NewsAndStats = () => {
     return (
-        <section>
-            <div className={style.glSection}>
-                <h2 className={style.head}>Stocks to Watch</h2>
-                <div className={style.glContainer}>
-                    <GLPanel />
-                    <br /><br />
+        <section className={style.newsStatsSectionWrap}>
+            <div className={style.newsStatsContainer}>
+
+                <div className={style.newsWrap}>
+                    <h2 className={style.head}>Market News</h2>
+                    
                 </div>
+
+                <div className={style.glWrap}>
+                    <h2 className={style.head}>Top Gain/Loss</h2>
+                    <GLPanel />
+                </div>
+
             </div>
         </section>
     );
@@ -65,6 +73,12 @@ const AboutBlerb = () => {
     return (
         <section>
             <h2 className="center">About Us</h2>
+            <p className={style.aboutParagraph}>
+                At Universal Wealth, we aim to connect users with the latest
+                stock market moves and news in a simple to use interface. This 
+                app formed as part of a project by the Tech Startup Club 
+                at the University of Washington Tacoma.
+            </p>
         </section>
     );
 }
