@@ -8,7 +8,7 @@ import './index.css';
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,24}$/;
-const REGISTER_URL = '/register';
+const REGISTER_URL = 'http://localhost:3000/auth/register';
 
 console.log("Password being tested:", "Poopgoaway1@");
 console.log("Password Validation:", PWD_REGEX.test("Poopgoaway1@"));
@@ -72,15 +72,12 @@ const Register = () => {
         const v3 = PWD_REGEX.test(pwd);
         if (!v1 || !v2 || !v3) {
             console.log(v1, v2, v3);
-            console.log("User Validation: ", USER_REGEX.test(user));
-            console.log("Email Validation: ", EMAIL_REGEX.test(email));
-            console.log("Password Validation: ", PWD_REGEX.test(pwd));
             setErrMsg("Invalid Entry");
             return;
         }
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ user, email, pwd }),
+                JSON.stringify({ username: user, email: email, password: pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -90,6 +87,7 @@ const Register = () => {
             console.log(JSON.stringify(response))
             setSuccess(true);
         } catch (err) {
+            console.log(err)
             if (!err?.response) {
                 setErrMsg('No Server Response')
             } else if (err.response?.status === 409) {
@@ -214,7 +212,7 @@ const Register = () => {
                                 Must match the first password input field.
                             </p>
 
-                            <button disabled={!validName || !validEmail || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                            <button disabled={!validName || !validEmail || !validPwd || !validMatch ? true : false}>Register</button>
                         </form>
                         <p>
                             Already registered?<br />

@@ -4,7 +4,7 @@ import axios from '../../api/axios';
 import { Link } from 'react-router-dom';
 import './index.css';
 
-const LOGIN_URL = '/login';
+const LOGIN_URL = 'http://localhost:3000/auth/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -30,7 +30,7 @@ const Login = () => {
 
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, email, pwd }),
+                JSON.stringify({ username: user, email: email, password: pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
