@@ -36,7 +36,6 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data));
             // console.log(JSON.stringify(response));
             // const accessToken = response?.data?.accessToken; // later stuff
             setAuth({ user, email, pwd }); // add access token later

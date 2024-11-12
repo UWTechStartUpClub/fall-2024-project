@@ -10,9 +10,6 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,24}$/;
 const REGISTER_URL = 'http://localhost:3000/auth/register';
 
-console.log("Password being tested:", "Poopgoaway1@");
-console.log("Password Validation:", PWD_REGEX.test("Poopgoaway1@"));
-
 const Register = () => {
     const userRef = useRef();
     const errRef = useRef();
@@ -42,8 +39,6 @@ const Register = () => {
 
     useEffect(() => {
         const result = USER_REGEX.test(user);
-        console.log(result);
-        console.log(user);
         setValidName(result);
     }, [user])
 
@@ -53,8 +48,6 @@ const Register = () => {
 
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
-        console.log(result);
-        console.log(pwd);
         setValidPwd(result);
         const match = pwd === matchPwd;
         setValidMatch(match);
@@ -71,7 +64,6 @@ const Register = () => {
         const v2 = EMAIL_REGEX.test(email);
         const v3 = PWD_REGEX.test(pwd);
         if (!v1 || !v2 || !v3) {
-            console.log(v1, v2, v3);
             setErrMsg("Invalid Entry");
             return;
         }
@@ -83,11 +75,8 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            console.log(response.data);
-            console.log(JSON.stringify(response))
             setSuccess(true);
         } catch (err) {
-            console.log(err)
             if (!err?.response) {
                 setErrMsg('No Server Response')
             } else if (err.response?.status === 409) {
