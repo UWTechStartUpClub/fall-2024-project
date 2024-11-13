@@ -7,9 +7,14 @@ const cors = require('cors');
 app.use(cors());
 const app = express();
 
+/** CORS */
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true
+}));
+
 /** Middleware */
 app.use(express.json())
-// // app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 app.set('view engine', 'ejs');
@@ -20,7 +25,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
-// /** helmet */
+/** helmet */
 const helmet = require('helmet');
 app.use(helmet());
 
