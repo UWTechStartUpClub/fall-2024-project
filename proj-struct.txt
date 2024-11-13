@@ -1,0 +1,21 @@
+fall-2024-project/
+├── .gitignore
+├── LICENSE
+├── README.md
+├── stock-app/                  # Frontend (React)
+│   ├── public/
+│   ├── src/
+│   ├── outline.css
+│   ├── package.json            # Frontend dependencies and scripts
+│   ├── package-lock.json
+│   └── ...
+└── server/                    # Sever (backend) (Node.js/Express)
+    ├── config/
+    ├── controllers/
+    ├── middleware/
+    ├── models/
+    ├── routes/
+    ├── app.js
+    ├── package.json            # Backend dependencies and scripts
+    ├── package-lock.json
+    └── .env
