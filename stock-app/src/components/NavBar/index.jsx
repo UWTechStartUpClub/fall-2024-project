@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/images/official logo.png'
+import logo from '../../assets/images/universal-wealth-logo-main.png'
 
 import "./index.css"
 
