@@ -8,6 +8,7 @@ function App() {
    <>
    <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/stock/:symbol" element={<Stock />} />
     {/* <Route path="/about" element={<About />} />
     <Route path="/t&c" element={<TermsAndConds />} />
     <Route path="/contact" element={<Contact />} />
