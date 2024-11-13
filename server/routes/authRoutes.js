@@ -25,14 +25,14 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        const { username, email, password } = req.body
-        console.log("(login) Username:", username, "Email:", email, "Password:", password)
+        const { email, password } = req.body;
+        console.log("(login) Email:", email, "Password:", password)
 
-        if (!username || !email || !password) {
-            throw new Error("Username, email, and password are required");
+        if (!email || !password) {
+            throw new Error("Email and password are required")
         }
 
-        const token = await login(username, email, password)
+        const token = await login(email, password)
         res.json({ token })
     } catch (error) {
         res.status(400).json({ error: error.message })
