@@ -13,41 +13,49 @@
 nav {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
     justify-content: space-between;
     background: var(--primary-color);
     height: var(--border-height);
     padding: var(--border-y-padding) 80px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     z-index: 1;
+    transition: all 0.2s ease-in;
 }
 
-/* .navbar { */
-/* border-bottom: 1px solid rgba(255, 255, 255, 0.125); */
-/* } */
+.logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+}
+
 
 .logo img {
-    height: 70px;
+    height: 150%;
+    width: auto;
+    align-items: center;
+    object-fit: contain;
+
 }
 
 #nav-links {
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    flex-wrap: nowrap;
     z-index: inherit;
 }
 
 .link-style {
-    padding: 5px 15px;
-    margin: 5px;
+    padding: 5px 10px;
+    margin: 2.5px;
     position: relative;
     color: var(--secondary-color);
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     font-weight: 500;
 }
-
-/* .link-style:hover {
-    color: var(--spirit-gold);
-} */
 
 .link-style:hover::after {
     content: "";
@@ -67,14 +75,25 @@ nav {
     color: var(--secondary-color);
 }
 
-@media screen and (max-width:770px) {
+@media (max-width: 900px) {
+    nav {
+        padding-right: 35px;
+    }
+
+    .link-style {
+        /* padding: 3px;
+        margin: 3px; */
+    }
+}
+
+@media screen and (max-width:780px) {
     #nav-links {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
         position: fixed;
-        top: calc(var(--total-y-border) - 1px);
+        top: calc(var(--border-height));
         right: -300px;
         width: 250px;
         background-color: var(--primary-color);
@@ -96,6 +115,7 @@ nav {
         top: -30px;
         padding: 40px 0 0 10px;
         height: 100vh;
+        flex-wrap: nowrap;
     }
 
 
@@ -104,7 +124,7 @@ nav {
         padding: 10px;
         transition: opacity 0.05s ease;
         opacity: 0;
-        font-size: 1.3rem;
+        font-size: 1rem;
     }
 
     #nav-links.active {
