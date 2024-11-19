@@ -76,6 +76,10 @@ const Register = () => {
                 }
             );
             setSuccess(true);
+            setUser('');
+            setEmail('');
+            setPwd('');
+            setMatchPwd('');
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

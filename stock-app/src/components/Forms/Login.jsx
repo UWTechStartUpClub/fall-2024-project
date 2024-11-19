@@ -7,13 +7,13 @@ import './index.css';
 const LOGIN_URL = 'http://localhost:3000/auth/login'; // while in development
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
-    const errRef = useRef();
-
+    const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+
+    const errRef = useRef();
 
     useEffect(() => {
         setErrMsg('');
@@ -30,8 +30,8 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            //  const accessToken = response?.data?.accessToken; // later when needed
-            setAuth({ email, pwd }); // add access token later when needed
+            const { accessToken, refreshToken } = response?.data;
+            login(email, pwd, accessToken, refreshToken);
             setEmail('');
             setPwd('');
             setSuccess(true);
