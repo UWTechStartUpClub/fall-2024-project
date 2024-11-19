@@ -40,7 +40,7 @@ const login = async (email, password) => {
 
     await pool.query(
         `UPDATE users SET refresh_token = $1 WHERE id = $2`,
-        [refreshToken, userId]
+        [refreshToken, user.id]
     );
 
     return { accessToken, refreshToken };
@@ -49,16 +49,20 @@ const login = async (email, password) => {
 const refreshTokens = async (refreshToken) => {
     if (!refreshToken) throw new Error("Refresh token is required");
 
-    const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
-    const result = await pool.query(
-        `SELECT * FROM users WHERE id = $1 AND refresh_token = $2`,
-        [decoded.userId, refreshToken]
-    );
+    try {
+        const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
+        const result = await pool.query(
+            `SELECT * FROM users WHERE id = $1 AND refresh_token = $2`,
+            [decoded.userId, refreshToken]
+        );
 
-    if (result.rows.length === 0) throw new Error("Invalid refresh token");
+        if (result.rows.length === 0) throw new Error("Invalid refresh token");
 
-    const accessToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, { expiresIn: '30m' });
-    return accessToken;
+        const accessToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, { expiresIn: '30m' });
+        return accessToken;
+    } catch (error) {
+        throw new Error("Invalid or expired refresh token");
+    }
 }
 
 module.exports = { register, login, refreshTokens };

@@ -8,7 +8,7 @@ import './index.css';
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,24}$/;
-const REGISTER_URL = 'http://localhost:3000/auth/register';
+const REGISTER_URL = 'http://localhost:3000/auth/register'; // while in development
 
 const Register = () => {
     const userRef = useRef();
@@ -78,11 +78,13 @@ const Register = () => {
             setSuccess(true);
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response')
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('All fields are required');
             } else if (err.response?.status === 409) {
-                setErrMsg('Username Taken');
+                setErrMsg('Username or email already exists');
             } else {
-                setErrMsg('Registration Failed')
+                setErrMsg('Registration Failed');
             }
             errRef.current.focus();
         }

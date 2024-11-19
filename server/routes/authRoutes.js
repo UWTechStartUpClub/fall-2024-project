@@ -12,13 +12,13 @@ router.post('/register', async (req, res) => {
         }
 
         await register(username, email, password);
-        res.status(201).send('User registered successfully');
+        res.status(201).send("User registered successfully");
     } catch (error) {
-        if (error.message === 'Username or email already exists') {
-            return res.status(400).json({ error: error.message });
+        if (error.message === "Username or email already exists") {
+            return res.status(409).json({ error: "Username or email already exists" });
         }
         console.error(error);
-        res.status(500).json({ error: 'An unexpected error occurred' });
+        res.status(500).json({ error: "An unexpected error occurred" });
     }
 });
 

@@ -4,7 +4,7 @@ import axios from '../../api/axios';
 import { Link } from 'react-router-dom';
 import './index.css';
 
-const LOGIN_URL = 'http://localhost:3000/auth/login';
+const LOGIN_URL = 'http://localhost:3000/auth/login'; // while in development
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -41,7 +41,7 @@ const Login = () => {
             } else if (err.response?.status === 400) {
                 setErrMsg('Missing Email or Password');
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Unauthorized: Incorrect email or password');
             } else {
                 setErrMsg('Login Failed');
             }
