@@ -62,7 +62,7 @@ const NavBar = () => {
             <div id='nav-links' ref={navRef} className={isOpen ? 'active' : ''}>
                 <div id='link-container'>
                     <Link className='link-style' to={'/about'}>About</Link>
-                    <Link className='link-style' to={'/stocks/'}>Stocks</Link>
+                    <Link className='link-style' to={'/stocks'}>Stocks</Link>
                     <Link className='link-style' to={'/contact'}>Contact</Link>
                     <Link className='link-style' to={'/search'}>Find Stocks</Link> {/* Should this only be visible when logged in? */}
                     <Link className='link-style' to={'/login'}>Login</Link>

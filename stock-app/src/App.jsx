@@ -25,7 +25,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:userId" element={<UserProfile />} />
-        <Route path="/stock/" element={<AllStocks />} />
+        <Route path="/stocks" element={<AllStocks />} />
         <Route path="/stock/:symbol/graph" element={<StockGraph />} />
         <Route path="/stock/:symbol" element={<Stock />} />
         <Route path="/search" element={<Search />} />
