@@ -1,15 +1,28 @@
 const express = require('express');
 const { getStockData } = require('./AlphaVantageService');
+const cookieParser = require('cookie-parser');
+const authRoutes = require('./routes/authRoutes');
+const cors = require('cors');
+
 const app = express();
 
+/** CORS */
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true
+}));
+
+/** Middleware */
+app.use(express.json())
+app.use(cookieParser())
+
 app.set('view engine', 'ejs');
-
 app.use(express.static('public'));
-
 
 /** Body parser */
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 /** helmet */
 const helmet = require('helmet');
@@ -38,6 +51,9 @@ app.get('/about', (req, res) => {
 app.get('/contact', (req, res) => {
   res.render('contact', { title: 'Contact Us' });
 });
+
+/** Auth routes */
+app.use('/auth', authRoutes)
 
 /** Set the port and start the server */
 const PORT = process.env.PORT || 3000;
