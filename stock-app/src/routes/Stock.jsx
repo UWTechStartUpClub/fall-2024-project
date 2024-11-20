@@ -15,7 +15,7 @@ const Stock = () => {
         // Fetch stock data from the backend Express server
         const fetchStockData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/stock/${symbol}`);
+                const response = await axios.get(`stock/${symbol}`);
                 setStockData(response.data); // Store stock data in state
             } catch (err) {
                 if (err.response) {
@@ -71,7 +71,7 @@ const StockName = ({ stockData }) => {
     return (
         <div className={style.stockNameBlock}>
             <h1>{companyName}</h1>
-            <span>{stockData['Global Quote'] ? stockData['Global Quote']['01. symbol'] : 'SYMB'}</span>
+            <span>{stockData['Global Quote'] ? stockData['Global Quote']['01. symbol'] : 'symbol'}</span>
             <span>  &#x2022;  </span>
             <span>USD</span>
         </div>
