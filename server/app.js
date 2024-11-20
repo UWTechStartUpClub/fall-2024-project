@@ -3,36 +3,32 @@ const { getStockData } = require('./AlphaVantageService');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
-app.use(cors());
+// Initialize the Express app
 const app = express();
 
 /** CORS */
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'http://localhost:3000',  // Adjust if needed
   credentials: true
 }));
 
 /** Middleware */
-app.use(express.json())
-app.use(cookieParser())
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(helmet()); // Secure HTTP headers
 
+/** Set the view engine */
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-/** Body parser */
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
+/** Define routes */
 
-/** helmet */
-const helmet = require('helmet');
-app.use(helmet());
-
-
-// Define routes
-
-/** Stock symbol */
+/** Stock symbol route */
 app.get('/stock/:symbol', async (req, res) => {
   const symbol = req.params.symbol; // Get the stock symbol from the request URL
   try {
@@ -43,31 +39,28 @@ app.get('/stock/:symbol', async (req, res) => {
   }
 });
 
-/** about route */
+/** About route */
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About Us' });
 });
 
-/** contact route */
+/** Contact route */
 app.get('/contact', (req, res) => {
   res.render('contact', { title: 'Contact Us' });
 });
 
 /** Auth routes */
-app.use('/auth', authRoutes)
-
-/** Set the port and start the server */
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-
-// Form submissions
+app.use('/auth', authRoutes);
 
 /** Contact form submission */
 app.post('/contact', (req, res) => {
   const { name, email, message } = req.body;
   // Process form data (e.g., save to database, send email, etc.)
   res.send(`Thank you, ${name}, we will get back to you soon!`);
+});
+
+/** Set the port and start the server */
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
