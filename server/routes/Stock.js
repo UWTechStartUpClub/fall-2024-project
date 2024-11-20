@@ -14,7 +14,7 @@ app.get('/stock/:symbol', async (req, res) => {
     }
 });
 
-const PORT = 3001; // Ensure the backend runs on port 5000
+const PORT = 3001; // Ensure the backend runs on port 3001
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
