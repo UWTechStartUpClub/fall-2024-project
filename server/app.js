@@ -11,7 +11,7 @@ const app = express();
 
 /** CORS */
 app.use(cors({
-  origin: 'http://localhost:3000',  // Adjust if needed
+  origin: 'http://localhost:3000', 
   credentials: true
 }));
 
@@ -39,7 +39,8 @@ app.get('/stock/:symbol', async (req, res) => {
   const symbol = req.params.symbol; // Get the stock symbol from the request URL
   try {
     console.log('');
-    const stockData = await getStockData(symbol);
+    const stockData = await getStockData(symbol)
+    // respond not responding
     res.json(stockData);  // Send the data as JSON
   } catch (error) {
     res.status(500).send('Error fetching stock data');

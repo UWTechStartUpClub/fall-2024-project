@@ -15,25 +15,29 @@ const Stock = () => {
         // Fetch stock data from the backend Express server
         const fetchStockData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/stock/${symbol}`);
-                // const response = await axios.get(`stock/${symbol}`);
-                setStockData(response.data); // Store stock data in state
+              console.log(`Requesting stock data for symbol: ${symbol}`);
+              const response = await axios.get(`http://localhost:3001/stock/${symbol}`);
+              console.log('Response received from backend:', response.data);
+              setStockData(response.data); // Update the state with the stock data
             } catch (err) {
-                if (err.response) {
-                    // The server responded with a status other than 2xx
-                    setError(`Error ${err.response.status}: ${err.response.data}`);
-                    console.error("Server responded with an error:", err.response);
-                } else if (err.request) {
-                    // The request was made, but no response was received
-                    setError("No response from the server. Please try again later.");
-                    console.error("No response from server:", err.request);
-                } else {
-                    // Other errors (e.g., invalid request or network issues)
-                    setError(`An error occurred: ${err.message}`);
-                    console.error("Error during request:", err.message);
-                }
+              console.error('Error occurred during fetchStockData:', err);
+          
+              if (err.response) {
+                // Server responded with a status other than 2xx
+                console.error("Backend responded with error:", err.response);
+                setError(`Error ${err.response.status}: ${err.response.data}`);
+              } else if (err.request) {
+                // Request was made, but no response received
+                console.error("No response from server. Check if backend is running:", err.request);
+                setError("No response from the server. Please try again later.");
+              } else {
+                // Other errors
+                console.error("An unexpected error occurred:", err.message);
+                setError(`An error occurred: ${err.message}`);
+              }
             }
-        };
+          };
+          
 
         if (symbol) {
             fetchStockData(); // Fetch data when the component is mounted or symbol changes
