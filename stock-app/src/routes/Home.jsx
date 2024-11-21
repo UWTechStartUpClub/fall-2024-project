@@ -6,6 +6,12 @@ import GLPanel from '../components/GainerLoser';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer'
 
+/**
+ * This is the main home component, rendering the main layout.
+ * Home contains sections: a navigation bar, a main header, a "Top Gainers and Losers" section, etc.
+ * No direct interaction with the AlphaVantage API
+ */
+
 const appName = "Universal Wealth";
 
 const Home = () => {
