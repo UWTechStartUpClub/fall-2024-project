@@ -16,7 +16,8 @@ const Stock = () => {
         const fetchStockData = async () => {
             try {
               console.log(`Requesting stock data for symbol: ${symbol}`);
-              const response = await axios.get(`http://localhost:3001/stock/${symbol}`);
+            //   const response = await axios.get(`http://localhost:3001/stock/${symbol}`);
+              const response = await axios.get(`${symbol}`);
               console.log('Response received from backend:', response.data);
               setStockData(response.data); // Update the state with the stock data
             } catch (err) {
