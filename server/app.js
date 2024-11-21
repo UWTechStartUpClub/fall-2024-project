@@ -29,9 +29,16 @@ app.use(express.static('public'));
 /** Define routes */
 
 /** Stock symbol route */
+
+// this is what we want to use
+// app.use('/stock/:symbol', stockRoutes);
+
+// this is working
 app.get('/stock/:symbol', async (req, res) => {
+  console.log('inside the get stock symbol route');
   const symbol = req.params.symbol; // Get the stock symbol from the request URL
   try {
+    console.log('');
     const stockData = await getStockData(symbol);
     res.json(stockData);  // Send the data as JSON
   } catch (error) {
