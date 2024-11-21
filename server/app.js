@@ -31,21 +31,21 @@ app.use(express.static('public'));
 /** Stock symbol route */
 
 // this is what we want to use
-// app.use('/stock/:symbol', stockRoutes);
+app.use('/stock/:symbol', stockRoutes);
 
 // this is working
-app.get('/stock/:symbol', async (req, res) => {
-  console.log('inside the get stock symbol route');
-  const symbol = req.params.symbol; // Get the stock symbol from the request URL
-  try {
-    console.log('');
-    const stockData = await getStockData(symbol)
-    // respond not responding
-    res.json(stockData);  // Send the data as JSON
-  } catch (error) {
-    res.status(500).send('Error fetching stock data');
-  }
-});
+// app.get('/stock/:symbol', async (req, res) => {
+//   console.log('inside the get stock symbol route');
+//   const symbol = req.params.symbol; // Get the stock symbol from the request URL
+//   try {
+//     console.log('');
+//     const stockData = await getStockData(symbol)
+//     // respond not responding
+//     res.json(stockData);  // Send the data as JSON
+//   } catch (error) {
+//     res.status(500).send('Error fetching stock data');
+//   }
+// });
 
 /** About route */
 app.get('/about', (req, res) => {
