@@ -1,5 +1,5 @@
-
 import { Routes, Route } from 'react-router-dom';
+import { ProtectedRoutes } from "./routes/ProtectedRoutes"
 import Home from './routes/Home';
 import About from './routes/About';
 import TermsAndConds from './routes/TermsAndConds';
@@ -22,11 +22,13 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile/:userId" element={<UserProfile />} />
-        <Route path="/stocks" element={<AllStocks />} />
-        <Route path="/stock/:symbol/graph" element={<StockGraph />} />
-        <Route path="/stock/:symbol" element={<Stock />} />
-        <Route path="/search" element={<Search />} />
+        <Route element={<ProtectedRoutes />}> {/* Anything within this tag is protected */}
+          <Route path="/profile/:userId" element={<UserProfile />} />
+          <Route path="/stocks" element={<AllStocks />} />
+          <Route path="/stock/:symbol/graph" element={<StockGraph />} />
+          <Route path="/stock/:symbol" element={<Stock />} />
+          <Route path="/search" element={<Search />} />
+        </Route>
       </Routes>
     </>
   );
