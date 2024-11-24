@@ -17,8 +17,6 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="register" element={<Register />} /> // not sure if needed
-        <Route path="login" element={<Login />} /> */}
         <Route path="/about" element={<About />} />
         <Route path="/t&c" element={<TermsAndConds />} />
         <Route path="/contact" element={<Contact />} />
