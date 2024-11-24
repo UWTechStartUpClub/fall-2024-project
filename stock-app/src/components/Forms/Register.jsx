@@ -75,11 +75,13 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            setSuccess(true);
+
             setUser('');
             setEmail('');
             setPwd('');
             setMatchPwd('');
+
+            setSuccess(true);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

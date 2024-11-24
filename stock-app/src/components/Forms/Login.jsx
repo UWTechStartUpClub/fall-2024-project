@@ -1,5 +1,4 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from '../../context/AuthProvider';
+import { useRef, useState, useEffect } from 'react';
 import axios from '../../api/axios';
 import { Link } from 'react-router-dom';
 import './index.css';
@@ -7,7 +6,6 @@ import './index.css';
 const LOGIN_URL = 'http://localhost:3000/auth/login'; // while in development
 
 const Login = () => {
-    const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -21,6 +19,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(email, pwd)
 
         try {
             const response = await axios.post(LOGIN_URL,
@@ -30,11 +29,16 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            const { accessToken, refreshToken } = response?.data;
-            login(email, pwd, accessToken, refreshToken);
-            setEmail('');
-            setPwd('');
-            setSuccess(true);
+            console.log("API response:", response);
+
+            if (response.status === 200) {
+                // If login is successful, set success state and reset form fields
+                setEmail('');
+                setPwd('');
+                setSuccess(true);
+            } else {
+                setErrMsg('Login failed');
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

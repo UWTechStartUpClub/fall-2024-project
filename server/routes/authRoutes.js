@@ -1,8 +1,11 @@
 const express = require('express');
 const { register, login, refreshTokens } = require('../controllers/auth');
 const verifyToken = require('../middleware/verifyToken');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/register', async (req, res) => {
     try {
@@ -38,7 +41,7 @@ router.post('/login', async (req, res) => {
             maxAge: 30 * 60 * 1000 // 30 min in ms
         });
 
-        res.cookie('refeshToken', refreshToken, {
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             // secure: /* process.env for production environment */,
             sameSite: 'strict',
@@ -73,6 +76,21 @@ router.post('/refresh-token', async (req, res) => {
     } catch (error) {
         res.status(401).json({ error: "Invalid or expired refresh token" })
     }
+});
+
+router.get('/verify', (req, res) => {
+    const { accessToken } = req.cookies;
+
+    if (!accessToken) {
+        return res.status(401).json({ message: 'Unauthorized: No access token' });
+    }
+
+    jwt.verify(accessToken, JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Token expired or invalid' });
+        }
+        res.json({ user });
+    });
 });
 
 router.get('/profile', verifyToken, (req, res) => {
