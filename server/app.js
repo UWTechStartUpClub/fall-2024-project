@@ -8,7 +8,7 @@ const app = express();
 
 /** CORS */
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:3001',
   credentials: true
 }));
 
@@ -27,6 +27,13 @@ app.use(bodyParser.json())
 /** helmet */
 const helmet = require('helmet');
 app.use(helmet());
+
+// debugging
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  console.log('Headers:', req.headers);
+  next();
+});
 
 
 // Define routes

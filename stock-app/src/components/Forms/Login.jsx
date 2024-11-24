@@ -17,6 +17,10 @@ const Login = () => {
         setErrMsg('');
     }, [email, pwd]);
 
+    useEffect(() => {
+        console.log("Current auth state in localStorage:", localStorage.getItem("auth"));
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(email, pwd)
@@ -31,8 +35,15 @@ const Login = () => {
             );
             console.log("API response:", response);
 
+            const { accessToken, refreshToken } = response.data;
+            // console.log("Saving tokens to localStorage:", { accessToken, refreshToken }); // Debugging
+            localStorage.setItem("auth", JSON.stringify({ accessToken, refreshToken }));
+            console.log("Tokens set, retrieved auth:", localStorage.getItem("auth"));
+
+            // debugging
+            // console.log("Retrieved from localStorage after setting:", localStorage.getItem("auth"));
+
             if (response.status === 200) {
-                // If login is successful, set success state and reset form fields
                 setEmail('');
                 setPwd('');
                 setSuccess(true);

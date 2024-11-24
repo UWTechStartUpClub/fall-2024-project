@@ -34,21 +34,26 @@ router.post('/login', async (req, res) => {
 
         const { accessToken, refreshToken } = await login(email, password);
 
+        console.log('Access Token:', accessToken); // Debugging
+        console.log('Refresh Token:', refreshToken); // Debugging
+
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            // secure: /* process.env for production environment */,
             sameSite: 'strict',
             maxAge: 30 * 60 * 1000 // 30 min in ms
         });
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            // secure: /* process.env for production environment */,
             sameSite: 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in ms
         });
 
-        res.json({ message: "Login successful" });
+        res.json({
+            accessToken,
+            refreshToken,
+            message: "Login successful"
+        });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -79,17 +84,17 @@ router.post('/refresh-token', async (req, res) => {
 });
 
 router.get('/verify', (req, res) => {
-    const { accessToken } = req.cookies;
+    const token = req.cookies.accessToken;
 
-    if (!accessToken) {
-        return res.status(401).json({ message: 'Unauthorized: No access token' });
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
 
-    jwt.verify(accessToken, JWT_SECRET, (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ message: 'Token expired or invalid' });
+            return res.status(403).json({ message: 'Invalid or expired token' });
         }
-        res.json({ user });
+        res.json({ message: 'Token is valid', user });
     });
 });
 
