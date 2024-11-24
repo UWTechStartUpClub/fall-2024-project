@@ -24,6 +24,9 @@ const Dashboard = () => {
                         <div>
                             <Watchlist />
                         </div>
+                        <div className={style.dashStockDetails}>
+                            <GLPanel />
+                        </div>
                     </div>
 
                 </div>

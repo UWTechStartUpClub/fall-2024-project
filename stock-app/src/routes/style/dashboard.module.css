@@ -17,12 +17,17 @@
 
 .dashMainGrid {
     display: grid;
-    grid-template-columns: 80% 20%;
-    grid-template-rows: 50% 50%;
+    grid-template-columns: auto 300px;
+    grid-template-rows: 0.5fr 0.5fr 1fr;
     gap: 8px;
 }
 
 .dashWatchlist {
     grid-row-start: 1;
     grid-row-end: span 2;
+}
+
+.dashStockDetails {
+    grid-column-start: 1;
+    grid-column-end: span 2;
 }
