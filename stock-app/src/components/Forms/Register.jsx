@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from '../../api/axios'
+import axios from 'axios'
 import { Link } from 'react-router-dom';
 import './index.css';
 
@@ -76,12 +76,15 @@ const Register = () => {
                 }
             );
 
-            setUser('');
-            setEmail('');
-            setPwd('');
-            setMatchPwd('');
-
-            setSuccess(true);
+            if (response.status === 200) {
+                setUser('');
+                setEmail('');
+                setPwd('');
+                setMatchPwd('');
+                setSuccess(true);
+            } else {
+                setErrMsg('Registration Failed');
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

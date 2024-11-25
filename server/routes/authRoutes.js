@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/register', async (req, res) => {
     try {
@@ -37,14 +36,18 @@ router.post('/login', async (req, res) => {
         console.log('Access Token:', accessToken); // Debugging
         console.log('Refresh Token:', refreshToken); // Debugging
 
+        res.clearCookie('refreshToken');
+
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
+            // secure: /* process.env for production environment */,
             sameSite: 'strict',
             maxAge: 30 * 60 * 1000 // 30 min in ms
         });
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
+            // secure: /* process.env for production environment */,
             sameSite: 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in ms
         });
@@ -68,6 +71,10 @@ router.post('/logout', (req, res) => {
 router.post('/refresh-token', async (req, res) => {
     try {
         const { refreshToken } = req.cookies;
+        if (!refreshToken) {
+            return res.status(401).json({ error: "Refresh token is required" });
+        }
+
         const newAccessToken = await refreshTokens(refreshToken);
 
         res.cookie('accessToken', newAccessToken, {

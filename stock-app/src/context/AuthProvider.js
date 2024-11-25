@@ -4,12 +4,7 @@ import axios from "axios";
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState(() => {
-        const storedAuthData = localStorage.getItem("auth");
-        console.log("Initial auth state from localStorage:",
-            storedAuthData ? JSON.parse(storedAuthData) : null);
-        return storedAuthData ? JSON.parse(storedAuthData) : null;
-    });
+    const [auth, setAuth] = useState(null);
 
     useEffect(() => {
         const verifySession = async () => {
@@ -21,7 +16,6 @@ export const AuthProvider = ({ children }) => {
                 if (response.status === 200) {
                     const { user } = response.data;
                     setAuth(user);
-                    localStorage.setItem("auth", JSON.stringify(user));
                 }
             } catch (err) {
                 if (err.response?.status === 404) {
@@ -30,7 +24,6 @@ export const AuthProvider = ({ children }) => {
                     console.log("Session verification failed", err);
                 }
                 setAuth(null);
-                localStorage.removeItem("auth");
             }
         };
 
@@ -39,7 +32,6 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setAuth(null);
-        localStorage.removeItem("auth");
         console.log("Logged out successfully");
     };
 

@@ -42,11 +42,6 @@ const login = async (email, password) => {
     console.log("accessToken: ", accessToken);
     console.log("refreshToken: ", refreshToken);
 
-    await pool.query(
-        `UPDATE users SET refresh_token = $1 WHERE id = $2`,
-        [refreshToken, user.id]
-    );
-
     return { accessToken, refreshToken };
 };
 
@@ -55,12 +50,6 @@ const refreshTokens = async (refreshToken) => {
 
     try {
         const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
-        const result = await pool.query(
-            `SELECT * FROM users WHERE id = $1 AND refresh_token = $2`,
-            [decoded.userId, refreshToken]
-        );
-
-        if (result.rows.length === 0) throw new Error("Invalid refresh token");
 
         const accessToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, { expiresIn: '30m' });
         return accessToken;

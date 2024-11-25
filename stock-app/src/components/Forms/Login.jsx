@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import axios from '../../api/axios';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './index.css';
 
@@ -17,13 +17,8 @@ const Login = () => {
         setErrMsg('');
     }, [email, pwd]);
 
-    useEffect(() => {
-        console.log("Current auth state in localStorage:", localStorage.getItem("auth"));
-    }, []);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email, pwd)
 
         try {
             const response = await axios.post(LOGIN_URL,
@@ -33,15 +28,6 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            console.log("API response:", response);
-
-            const { accessToken, refreshToken } = response.data;
-            // console.log("Saving tokens to localStorage:", { accessToken, refreshToken }); // Debugging
-            localStorage.setItem("auth", JSON.stringify({ accessToken, refreshToken }));
-            console.log("Tokens set, retrieved auth:", localStorage.getItem("auth"));
-
-            // debugging
-            // console.log("Retrieved from localStorage after setting:", localStorage.getItem("auth"));
 
             if (response.status === 200) {
                 setEmail('');
