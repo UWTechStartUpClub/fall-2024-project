@@ -1,8 +1,6 @@
 const express = require('express');
 const { register, login, refreshTokens } = require('../controllers/auth');
 const verifyToken = require('../middleware/verifyToken');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 const router = express.Router();
 
@@ -90,19 +88,8 @@ router.post('/refresh-token', async (req, res) => {
     }
 });
 
-router.get('/verify', (req, res) => {
-    const token = req.cookies.accessToken;
-
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Invalid or expired token' });
-        }
-        res.json({ message: 'Token is valid', user });
-    });
+router.get('/verify', verifyToken, (req, res) => {
+    res.json({ message: "Token is valid", user: req.user });
 });
 
 router.get('/profile', verifyToken, (req, res) => {
