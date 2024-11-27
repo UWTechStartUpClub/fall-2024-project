@@ -1,19 +1,17 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from '../../context/AuthProvider';
-import axios from '../../api/axios';
+import { useRef, useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './index.css';
 
-const LOGIN_URL = 'http://localhost:3000/auth/login';
+const LOGIN_URL = 'http://localhost:3000/auth/login'; // while in development
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
-    const errRef = useRef();
-
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+
+    const errRef = useRef();
 
     useEffect(() => {
         setErrMsg('');
@@ -30,18 +28,21 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            //  const accessToken = response?.data?.accessToken; // later when needed
-            setAuth({ email, pwd }); // add access token later when needed
-            setEmail('');
-            setPwd('');
-            setSuccess(true);
+
+            if (response.status === 200) {
+                setEmail('');
+                setPwd('');
+                setSuccess(true);
+            } else {
+                setErrMsg('Login failed');
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
                 setErrMsg('Missing Email or Password');
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Unauthorized: Incorrect email or password');
             } else {
                 setErrMsg('Login Failed');
             }

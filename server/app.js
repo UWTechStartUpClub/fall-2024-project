@@ -12,7 +12,7 @@ const app = express();
 
 /** CORS */
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 
@@ -30,7 +30,6 @@ app.use(express.static('public'));
 /** Define routes */
 
 /** Stock symbol route */
-
 // this is what we want to use
 // app.use('/stock/:symbol', stockRoutes);
 
