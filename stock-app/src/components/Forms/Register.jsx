@@ -1,14 +1,14 @@
 import { useRef, useState, useEffect } from 'react';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from '../../api/axios'
+import axios from 'axios'
 import { Link } from 'react-router-dom';
 import './index.css';
 
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,24}$/;
-const REGISTER_URL = 'http://localhost:3000/auth/register';
+const REGISTER_URL = 'http://localhost:3000/auth/register'; // while in development
 
 const Register = () => {
     const userRef = useRef();
@@ -75,14 +75,25 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            setSuccess(true);
+
+            if (response.status === 200) {
+                setUser('');
+                setEmail('');
+                setPwd('');
+                setMatchPwd('');
+                setSuccess(true);
+            } else {
+                setErrMsg('Registration Failed');
+            }
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response')
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('All fields are required');
             } else if (err.response?.status === 409) {
-                setErrMsg('Username Taken');
+                setErrMsg('Username or email already exists');
             } else {
-                setErrMsg('Registration Failed')
+                setErrMsg('Registration Failed');
             }
             errRef.current.focus();
         }
