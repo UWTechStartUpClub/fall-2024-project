@@ -38,10 +38,6 @@ const login = async (email, password) => {
     const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30m' });
     const refreshToken = jwt.sign({ userId: user.id }, REFRESH_SECRET, { expiresIn: '7d' });
 
-    // debugging
-    console.log("accessToken: ", accessToken);
-    console.log("refreshToken: ", refreshToken);
-
     return { accessToken, refreshToken };
 };
 

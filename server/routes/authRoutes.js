@@ -17,7 +17,6 @@ router.post('/register', async (req, res) => {
         if (error.message === "Username or email already exists") {
             return res.status(409).json({ error: "Username or email already exists" });
         }
-        console.error(error);
         res.status(500).json({ error: "An unexpected error occurred" });
     }
 });
@@ -30,9 +29,6 @@ router.post('/login', async (req, res) => {
         }
 
         const { accessToken, refreshToken } = await login(email, password);
-
-        console.log('Access Token:', accessToken); // Debugging
-        console.log('Refresh Token:', refreshToken); // Debugging
 
         res.clearCookie('refreshToken');
 

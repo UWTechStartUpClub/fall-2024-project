@@ -33,13 +33,6 @@ app.use(express.static('public'));
 // this is what we want to use
 // app.use('/stock/:symbol', stockRoutes);
 
-// debugging
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  console.log('Headers:', req.headers);
-  next();
-});
-
 // this is working
 app.get('/stock/:symbol', async (req, res) => {
   console.log('inside the get stock symbol route');
