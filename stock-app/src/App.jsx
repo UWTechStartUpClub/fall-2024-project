@@ -14,23 +14,21 @@ import Search from './routes/Search';
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/t&c" element={<TermsAndConds />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route element={<ProtectedRoutes />}> {/* Anything within this tag is protected */}
-          <Route path="/profile/:userId" element={<UserProfile />} />
-          <Route path="/stocks" element={<AllStocks />} />
-          <Route path="/stock/:symbol/graph" element={<StockGraph />} />
-          <Route path="/stock/:symbol" element={<Stock />} />
-          <Route path="/search" element={<Search />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/t&c" element={<TermsAndConds />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+      <Route element={<ProtectedRoutes />}> {/* Anything within this tag is protected */}
+        <Route path="/profile/:userId" element={<UserProfile />} />
+        <Route path="/stocks" element={<AllStocks />} />
+        <Route path="/stock/:symbol/graph" element={<StockGraph />} />
+        <Route path="/stock/:symbol" element={<Stock />} />
+        <Route path="/search" element={<Search />} />
+      </Route>
+    </Routes>
   );
 }
 
