@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const { getStockData } = require('../controllers/AlphaVantageService'); // import the service function
+const { getWatchlist, addToWatchlist } = require('../controllers/watchlist');
 
 // Define the /stock/:symbol route
 app.get('/stock/:symbol', async (req, res) => {
