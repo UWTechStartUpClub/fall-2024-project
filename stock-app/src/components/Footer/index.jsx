@@ -9,10 +9,11 @@ const Footer = () => {
         <footer className={style.footer}>
             <div className={style.footerContainer}>
                 <div class={style.footerLinks}>
-                    <a href="#privacy-policy">Privacy Policy</a>
-                    <a href="#terms-of-service">Terms of Service</a>
-                    <a href="#mission">Our Mission</a>
-                    <a href="#contact">Contact Us</a>
+                    <Link to={'/privacy-policy'}>Privacy Policy</Link>
+                    <Link to={'/accessibility'}>Accessibility</Link>
+                    <Link to={'/t&c'}>Terms & Conditions</Link>
+                    <Link to={'/about'}>About</Link>
+                    <Link to={'/contact'}>Contact</Link>
                 </div>
                 <p>
                     Copyright &#169; 2024 {appName}. Data courtesy of Alpha Vantage.
