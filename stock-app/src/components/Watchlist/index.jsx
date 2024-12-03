@@ -4,7 +4,54 @@ import axios from 'axios';
 import style from './index.module.css';
 
 const Watchlist = () => {
+    const [stockList, setStockList] = useState([]);
     const [showAddMenu, setShowAddMenu] = useState(false);
+
+    const handleAddToList = (theSymbol, theData) => {
+        // Add to shared hook
+
+        if (!(theSymbol === undefined || theData === undefined)) {
+            setStockList([
+                ...stockList,
+                {"symbol": theSymbol, "data": theData}
+            ]);
+        }
+    }
+
+    const getStockDataTemp = (sym) => {
+        try {
+            const response = TemporaryServ(sym);
+            return response;
+        } catch(err) {
+            console.error("An error occured: " + err);
+        }
+    }
+
+
+    // ***Load user's existing list data***
+    const buildListFromArray = (theArray) => {
+        const data = [];
+
+        for (let i = 0; i < theArray.length; i++) {
+            const quote = getStockDataTemp(theArray[i]);
+
+            if (quote === undefined) {
+                data.push({"symbol": theArray[i], "status": "error", "data": {}});
+            } else {
+                data.push({"symbol": theArray[i], "status": "success", "data": getStockDataTemp(theArray[i])["Global Quote"]});
+            }
+        }
+        
+        setStockList(data);
+    }
+
+    useState(() => {
+        const testArray = ["IBM", "NVDA", "AAPL"];
+
+        buildListFromArray(testArray);
+    }, []);
+    // ***^^^Load user's existing list data^^^***
+
 
     return (
         <div className={`${style.panelWrap} ${style.bgDark} ${style.fgDark}`}>
@@ -26,9 +73,30 @@ const Watchlist = () => {
                 </div>
             </div>
 
-            <ListBuilder />
+            {stockList.map(listing => (
+                <div key={listing["data"]["symbol"]} className={style.stockCard}>
+                    <Link to={'/stock/' + listing["symbol"]}>
+                        <div className={style.listGrid}>
 
-            {showAddMenu && <AddMenu visibleState={setShowAddMenu} />}
+                            <div>
+                                <span className={style.stockSymbol}>
+                                    {listing["data"]["01. symbol"]}
+                                </span>
+                            </div>
+                            <div>
+                                <span>{listing["data"]["05. price"]}</span>
+                                <br />
+                                <span className={parseInt(listing["data"]['09. change']) >= 0 ? style.stockGreen : style.stockRed}>
+                                    {parseInt(listing["data"]['09. change']) >= 0 ? '+' : ''}{listing["data"]['09. change']} ({parseInt(listing["data"]['09. change']) >= 0 ? '+' : ''}{listing["data"]['10. change percent']})
+                                </span>
+                            </div>
+
+                        </div>
+                    </Link>
+                </div>
+            ))}
+
+            {showAddMenu && <AddMenu visibleState={setShowAddMenu} getStockData={getStockDataTemp} setStockList={handleAddToList} />}
         </div>
     );
 }
@@ -81,12 +149,74 @@ const TemporaryServ = (symbol) => {
  * 
  * @param {*} num Number to be adjusted
  * @param {*} precision number of decimal places
- * @returns 
+ * @returns Adjusted number
  */
 function setPrecision(num, precision) {
     return num.toPrecision(precision);
 }
 
+
+/**
+ * Add entries to the list. Makes a request to the API.
+ * Takes a stock symbol and an array holding the stock
+ * data for this component.
+ * 
+ * @param {*} param0 Props for a (1) stock symbol, (2) array for stock data
+ *  and (3) the setter function for the array of stock data
+ */
+const AddEntry = ({symbol}) => {
+    const [stockData, setStockData] = useState(null);
+    const [error, setError] = useState(null);
+
+    const symbolData = {symbol}.symbol; // get just the symbol itself without encapsulating properties
+    
+    useEffect(() => {
+        const getStockData = async () => {
+            try {
+                console.log("Fetching data...");
+                const response = await axios.get(`stock/${symbolData}`);
+                setStockData(response.data);
+            } catch (err) {
+                console.error("An error occured while fetching data: " + err);
+                
+                if (err.response) {
+                    // Server responded with a status other than 2xx
+                    console.error("Backend responded with error:", err.response);
+                    setError(`Error ${err.response.status}: ${err.response.data}`);
+                } else if (err.request) {
+                    // Request was made, but no response received
+                    console.error("No response from server: ", err.request);
+                    setError("No response from the server. Please try again later.");
+                } else {
+                    // Other errors
+                    console.error("An unexpected error occurred: ", err.message);
+                    setError("An error occurred: ", err.message);
+                }
+            }
+        }
+
+        // make the call to getStockData
+        //getStockData();
+    }, []); // NOTE THE BRACKETS - NECESSARY TO RUN ONLY ON FIRST RUN INSTEAD OF EVERY RENDER!
+
+    //FIXME change to actual request later
+    useState(() => {
+        try {
+            const response = TemporaryServ(symbolData);
+            setStockData([response]);
+        } catch(err) {
+            console.error("An error occured: " + err);
+            setError(`${err}`);
+        }
+    }, []);
+    //END FIXME
+
+
+
+    
+}
+
+/*
 // Build the individual entry
 const EntryBuilder = ({symbol}) => {
     const [stockData, setStockData] = useState(null);
@@ -176,6 +306,7 @@ const EntryBuilder = ({symbol}) => {
     );
 }
 
+
 const ListBuilder = () => {
     // TEMPORARY
     const listOfSymbols = ['IBM', 'NVDA', 'AAPL'];
@@ -189,18 +320,16 @@ const ListBuilder = () => {
         items
     );
 }
+*/
 
-const AddMenu = ({visibleState}) => {
+const AddMenu = ({visibleState, getStockData, setStockList}) => {
     const [inputSym, setInputSym] = useState("");
     
     const addStock = () => {
         // insert code to add to user record
 
-        if (inputSym == "") {
-            return false;
-        } else {
-            return(<EntryBuilder symbol={inputSym} />);
-        }
+        const data = getStockData(inputSym);
+        setStockList(inputSym, data["Global Quote"]);
     }
 
     return (
