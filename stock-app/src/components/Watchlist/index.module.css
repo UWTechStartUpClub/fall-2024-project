@@ -64,3 +64,38 @@
     display: grid;
     grid-template-columns: 55% 45%;
 }
+
+.listControlPanelWrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* TODO
+PLEASE FIX BY SPECIFYING A CLASS NAME AFTER
+FIXING LEAKING CSS CODE FROM OTHER COMPONENTS
+*/
+.btn1 {
+    margin: 0;
+    padding: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid #777;
+    border-radius: 8px;
+    background-color: #232323;
+    color: #adadad;
+}
+
+.btn1:hover {
+    background-color: #323232;
+}
+
+.btn1:active {
+    border-color: #555;
+    transform: translateY(1px);
+}
+
+input.txtInput1 {
+    font-size: 12px;
+    border-radius: 8px;
+    border: 1px solid #777;
+}

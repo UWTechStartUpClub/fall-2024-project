@@ -22,7 +22,7 @@ const Dashboard = () => {
                             <GLPanel />
                         </div>
                         <div>
-                            <Watchlist />
+                            <GLPanel />
                         </div>
                         <div className={style.dashStockDetails}>
                             <GLPanel />
