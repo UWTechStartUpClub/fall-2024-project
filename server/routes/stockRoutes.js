@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const { getStockData } = require('../controllers/AlphaVantageService'); // import the service function
-const { getWatchlist, addToWatchlist } = require('../controllers/watchlist');
+const { getWatchlist, addToWatchlist, deleteFromWatchlist } = require('../controllers/watchlist');
 
 // Define the /stock/:symbol route
 app.get('/stock/:symbol', async (req, res) => {
@@ -32,7 +32,7 @@ app.get('/watchlist', async (req, res) => {
   }
 });
 
-// Add stock symbols to the watchlist
+// Add a stock symbol to the watchlist
 app.post('/watchlist', async (req, res) => {
   try {
     const { userID, stockSymbol } = req.body;
@@ -45,5 +45,21 @@ app.post('/watchlist', async (req, res) => {
     res.status(201).send("Successfully added stock symbol to watchlist")
   } catch (error) {
     res.status(500).json({ error: "Failed to add to watchlist" });
+  }
+});
+
+// Delete a stock symbol from the watchlist
+app.delete('/watchlist', async (req, res) => {
+  try {
+    const { userID, stockSymbol } = req.body;
+    if (!userID || !stockSymbol) {
+      return res.status(400).json({ error: "User id and stock symbol is required" });
+    }
+
+    await deleteFromWatchlist(userID, stockSymbol);
+
+    res.status(201).send("successed deleted stock symbol from watchlist");
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete from watchlist" });
   }
 });
