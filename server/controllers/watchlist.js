@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 // Returns the watchlist of stock symbols as a list
-const getWatchList = async (userID) => {
+const getWatchlist = async (userID) => {
     const result = await pool.query(
         `SELECT stock_symbol FROM watchlist WHERE user_id = $1`, [userID]
     );
@@ -45,4 +45,4 @@ const deleteFromWatchlist = async (userID, stockSymbol) => {
     }
 }
 
-module.exports = { getWatchList, addToWatchlist, deleteFromWatchlist };
+module.exports = { getWatchlist, addToWatchlist, deleteFromWatchlist };
