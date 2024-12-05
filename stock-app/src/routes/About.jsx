@@ -19,10 +19,13 @@ const teamMembers = [
     { name: 'Jacob Klymenko', img: jacobKlymenko, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
     { name: 'Nick Jordan', img: nickJordan, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
     { name: 'Primo Bambao', img: primoBambao, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
-    { name: 'Preston Sia', img: prestonSia, description: 'Hi there! I am an undergraduate student at the University of Washington Tacoma studying computer science. Programming is a passion of mine, one that started with the coding of a few simple web pages, and grew into the drive that brought me to this field and this project. I believe in the power of technology to make change in our communities for the better.' },
-    { name: 'Fernando Olivar Neri', img: fernandoOlivarNeri, description: 'Computer Science student at the University of Washington Tacoma skilled in Java, Python, JavaScript, and C. Passionate about software development and cybersecurity, I’m eager to contribute to impactful projects and grow in the tech industry.' },
+    { name: 'Preston Sia', img: prestonSia, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
+    //Hi there! I am an undergraduate student at the University of Washington Tacoma studying computer science. Programming is a passion of mine, one that started with the coding of a few simple web pages, and grew into the drive that brought me to this field and this project. I believe in the power of technology to make change in our communities for the better.
+    { name: 'Fernando Olivar Neri', img: fernandoOlivarNeri, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
+    //Computer Science student at the University of Washington Tacoma skilled in Java, Python, JavaScript, and C. Passionate about software development and cybersecurity, I’m eager to contribute to impactful projects and grow in the tech industry.
     { name: 'Alex Yu', img: alexYu, description: 'You are my sunshine, my only sunshine...' },
     { name: 'John Diego', img: johnDiego, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
+    { name: 'Anthony Naydyuk', img: johnDiego, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
     
 ];
 
