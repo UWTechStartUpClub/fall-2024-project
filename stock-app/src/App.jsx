@@ -11,6 +11,7 @@ import Stock from './routes/Stock';
 import AllStocks from './routes/AllStocks';
 import StockGraph from './routes/StockGraph';
 import Search from './routes/Search';
+import Accessibility from './routes/Accessibility';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/accessibility" element={<Accessibility />} />
       <Route element={<ProtectedRoutes />}> {/* Anything within this tag is protected */}
         <Route path="/profile/:userId" element={<UserProfile />} />
         <Route path="/stocks" element={<AllStocks />} />

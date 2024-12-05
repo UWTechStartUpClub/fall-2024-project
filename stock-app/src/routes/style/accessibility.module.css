@@ -1,0 +1,32 @@
+.accessibilitySection h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    /*animation starts here*/
+    opacity: 0; /* Start transparent */
+    transform: translateX(-100px); /* Start off-screen to the right */
+    animation: slideFadeIn 1s ease-out forwards; /* Trigger animation */
+}
+/* Keyframes for slide-in and fade-in effect */
+@keyframes slideFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px); /* Start position, obv adjust to where you want it to go */
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0); /* End position */
+    }
+}
+.accessibilitySection {
+    text-align: center;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.accessibilitySection p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555;
+}
