@@ -60,9 +60,18 @@
     font-weight: bold;
 }
 
+.listFlexWrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.listMainContent {
+    flex-basis: 100%;
+}
+
 .listGrid {
     display: grid;
-    grid-template-columns: 55% 45%;
+    grid-template-columns: 35% 65%;
 }
 
 .listControlPanelWrap {
