@@ -1,0 +1,33 @@
+.dashMainWrap {
+    padding: 2px;
+    border-top: 1px solid #454545;
+    background-color: #18191a;
+    color: #adadad;
+}
+
+.dashMainContent {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.dashMainContent h1 {
+    color: #198bd2;
+    margin-bottom: 12px;
+}
+
+.dashMainGrid {
+    display: grid;
+    grid-template-columns: auto 300px;
+    grid-template-rows: 0.5fr 0.5fr 1fr;
+    gap: 8px;
+}
+
+.dashWatchlist {
+    grid-row-start: 1;
+    grid-row-end: span 2;
+}
+
+.dashStockDetails {
+    grid-column-start: 1;
+    grid-column-end: span 2;
+}

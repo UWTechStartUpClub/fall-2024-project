@@ -4,7 +4,7 @@ import style from './style/home.module.css';
 import BigHeader from '../components/BigHeader';
 import GLPanel from '../components/GainerLoser';
 import NavBar from '../components/NavBar';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer';
 
 /**
  * This is the main home component, rendering the main layout.

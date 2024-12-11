@@ -7,6 +7,7 @@ import Contact from './routes/Contact';
 import Register from './components/Forms/Register';
 import Login from './components/Forms/Login';
 import UserProfile from './routes/UserProfile';
+import Dashboard from  './routes/Dashboard';
 import Stock from './routes/Stock';
 import AllStocks from './routes/AllStocks';
 import StockGraph from './routes/StockGraph';
@@ -23,6 +24,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route element={<ProtectedRoutes />}> {/* Anything within this tag is protected */}
         <Route path="/profile/:userId" element={<UserProfile />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/stocks" element={<AllStocks />} />
         <Route path="/stock/:symbol/graph" element={<StockGraph />} />
         <Route path="/stock/:symbol" element={<Stock />} />
