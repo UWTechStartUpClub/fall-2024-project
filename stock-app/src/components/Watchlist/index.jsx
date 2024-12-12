@@ -118,6 +118,12 @@ const Watchlist = () => {
      * on page load.
      */
     useEffect(() => {
+        /*
+        axios.get(`stock/watchlist`)
+            .then((response) => {
+                // move for loop up here here
+            });*/
+
         for (let i = 0; i < stockWatch.length; i++) {
             fetchStockData(stockWatch[i]);
         }
@@ -132,6 +138,13 @@ const Watchlist = () => {
      * @param {*} id Request identifier used to find and delete the stock from the list.
      */
     const deleteListing = (id) => {
+        /*
+        const deleteData = {"userID": "fixme", "stockSymbol": stockList.filter(listing => listing.id == id)["symbol"] };
+        axios.delete(`stock/watchlist`, deleteData)
+            .then(response => {
+                // move up here
+            });*/
+
         setStockList(
             stockList.filter(listing => listing.id !== id)
         );
@@ -143,6 +156,13 @@ const Watchlist = () => {
      * @param {*} id Request identifier used to find and delete an error message.
      */
     const deleteErrorMessage = (id) => {
+        /*
+        const deleteData = {"userID": "fixme", "stockSymbol": stockList.filter(listing => listing.id == id)["symbol"] };
+        axios.delete(`stock/watchlist`, deleteData)
+            .then(response => {
+                // move up here
+            });*/
+        
         setError(
             error.filter(listing => listing.id !== id)
         );
@@ -295,6 +315,12 @@ const AddMenu = ({visibleState, fetchStockData}) => {
     
     const addStock = () => {
         // insert code to add to user record
+        /*
+        const addData = {"userID": "fixme", "stockSymbol": stockList.filter(listing => listing.id == id)["symbol"] };
+        axios.post(`stock/watchlist`, addData)
+            .then(response => {
+                // move up here
+            });*/
 
         fetchStockData(inputSym);
     }
