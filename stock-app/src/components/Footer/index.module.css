@@ -1,0 +1,46 @@
+/* Footer styling */
+.footer {
+    /*background-color: #333; /* Dark background color for the footer */
+    background-color: #232323;
+    color: #fff; /* White text color */
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Footer container for layout */
+.footerContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Footer links container */
+.footerLinks {
+    margin-bottom: 10px;
+}
+
+/* Individual footer link styling */
+.footerLinks a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+/* Footer link hover effect */
+.footerLinks a:hover {
+    color: #ddd; /* Light gray color on hover */
+}
+
+/* Footer paragraph styling */
+.footer p {
+    color: #adadad;
+    margin: auto;
+}
+
+.footer p a {
+    color: #eee;
+}
