@@ -2,10 +2,10 @@ const express = require('express');
 const { getStockData } = require('./AlphaVantageService');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
+const stockRoutes = require('./routes/stockRoutes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-// const stockRoutes = require('./routes/stockRoutes');
 
 // Initialize the Express app
 const app = express();
@@ -59,6 +59,9 @@ app.get('/contact', (req, res) => {
 
 /** Auth routes */
 app.use('/auth', authRoutes);
+
+/** Watchlist routes */
+app.use('/stock', stockRoutes);
 
 /** Contact form submission */
 app.post('/contact', (req, res) => {
