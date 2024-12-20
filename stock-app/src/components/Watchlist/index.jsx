@@ -4,14 +4,34 @@ import axios from 'axios';
 import style from './index.module.css';
 
 const Watchlist = () => {
+    const [auth, setAuth] = useState(null); // hold authentication state, including the user id used to access watchlist
+    const [isLoading, setIsLoading] = useState(true); // determine if the authentication system is still loading
     const [stockList, setStockList] = useState([]);
     const [error, setError] = useState([]); // Hold error info for each stock request
     const [showAddMenu, setShowAddMenu] = useState(false); // hold state determining whether to show the "Add stock" menu
 
-    // TEMPORARY LIST OF STOCKS
-    const stockWatch = ["IBM", "MSFT", "AAPL"];
-    //const stockWatch = ["IBM"];
-    const stockWatch2 = ["IBM", "IBM", "IBM"];
+    // Watchlist API URL
+    const watchlistUrl = "http://localhost:3001/watchlist/watchlist"; //FIXME how to forward 3000 to 3001 like /stock???
+
+    // Get User ID
+    useEffect(() => {
+        const verifySession = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3000/auth/verify",
+                    { withCredentials: true }
+                );
+                if (response.status === 200) {
+                    setAuth(response.data.user)
+                }
+            } catch (err) {
+                setAuth(null);
+            }
+            setIsLoading(false);
+        };
+
+        verifySession();
+    }, [setAuth]);
 
     /**
      * Generate a random number to be used as part of a
@@ -35,52 +55,56 @@ const Watchlist = () => {
      * @param {*} symb Stock symbol to look up
      */
     /*
-    const fetchStockData = async (symb) => {
+    const fetchStockData = (symb) => {
         // random number generation for ID
         const randomNum = getRandomNum();
         const theId = symb + randomNum;
 
-        try {
-            console.log("Fetching data...");
-            const response = await axios.get(`stock/${symb}`);
-            // functional update
-            setStockList(prevState => {
-                let objInsert = [...prevState,
-                    {
-                        "id": theId,
-                        "symbol": symb,
-                        "data": response.data
-                    }
-                ];
-                console.log(objInsert);
-                return objInsert;
-            });
-        } catch (err) {
-            console.error("An error occured while fetching data: " + err);
-            
-            if (err.response) {
-                // Server responded with a status other than 2xx
-                console.error("Backend responded with error:", err.response);
-                setError(prevState => {
-                    const objError = {"id": theId, "error": err.response.data};
-                    return [...prevState, objError];
+        return new Promise(async (resolve) => {
+            try {
+                console.log("Fetching data...");
+                const response = await axios.get(`stock/${symb}`);
+                // functional update
+                setStockList(prevState => {
+                    let objInsert = [...prevState,
+                        {
+                            "id": theId,
+                            "symbol": symb,
+                            "data": response.data
+                        }
+                    ];
+                    console.log(objInsert);
+                    return objInsert;
                 });
-            } else if (err.request) {
-                // Request was made, but no response received
-                console.error("No response from server: ", err.request);
-                setError(prevState => {
-                    const objError = {"id": theId, "error": "No response from the server. Please try again later"};
-                    return [...prevState, objError];
-                });
-            } else {
-                // Other errors
-                console.error("An unexpected error occurred: ", err.message);
-                setError(prevState => {
-                    const objError = {"id": theId, "error": err.message};
-                    return [...prevState, objError];
-                })
+
+                resolve(symb);
+            } catch (err) {
+                console.error("An error occured while fetching data: " + err);
+                
+                if (err.response) {
+                    // Server responded with a status other than 2xx
+                    console.error("Backend responded with error:", err.response);
+                    setError(prevState => {
+                        const objError = {"id": theId, "symbol": symb, "error": err.response.data};
+                        return [...prevState, objError];
+                    });
+                } else if (err.request) {
+                    // Request was made, but no response received
+                    console.error("No response from server: ", err.request);
+                    setError(prevState => {
+                        const objError = {"id": theId, "symbol": symb, "error": "No response from the server. Please try again later"};
+                        return [...prevState, objError];
+                    });
+                } else {
+                    // Other errors
+                    console.error("An unexpected error occurred: ", err.message);
+                    setError(prevState => {
+                        const objError = {"id": theId, "symbol": symb, "error": err.message};
+                        return [...prevState, objError];
+                    })
+                }
             }
-        }
+        });
     }*/
     
     // TEMPORARY GET STOCK DATA HELPER FUNCTION
@@ -89,28 +113,32 @@ const Watchlist = () => {
         const randomNum = getRandomNum();
         const theId = symb + randomNum;
 
-        try {
-            let response = TemporaryServ(symb);
-            // functional update
-            setStockList(prevState => {
-                let objInsert = [...prevState,
-                    {
-                        "id": theId,
-                        "symbol": symb,
-                        "data": response
-                    }
-                ];
+        return new Promise((resolve) => {
+            try {
+                let response = TemporaryServ(symb);
+                // functional update
+                setStockList(prevState => {
+                    let objInsert = [...prevState,
+                        {
+                            "id": theId,
+                            "symbol": symb,
+                            "data": response
+                        }
+                    ];
 
-                return objInsert;
-            });
-        } catch (err) {
-            console.error('Error occured fetching data', err);
+                    return objInsert;
+                });
 
-            setError(prevState => {
-                let objError = {"id": theId, "error": err};
-                return [...prevState, objError];
-            })
-        }
+                resolve(symb);
+            } catch (err) {
+                console.error('Error occured fetching data', err);
+
+                setError(prevState => {
+                    let objError = {"id": theId, "symbol": symb, "error": err};
+                    return [...prevState, objError];
+                })
+            }
+        });
     }
 
     /**
@@ -118,16 +146,31 @@ const Watchlist = () => {
      * on page load.
      */
     useEffect(() => {
-        /*
-        axios.get(`stock/watchlist`)
-            .then((response) => {
-                // move for loop up here here
-            });*/
-
-        for (let i = 0; i < stockWatch.length; i++) {
-            fetchStockData(stockWatch[i]);
+        let userList = [];
+        const getWatchlistData = async () => {
+            try {
+                const response = await axios.get(
+                    `${watchlistUrl}`, {params: {userID: auth.userId}}
+                );
+                if (response.status === 200) {
+                    userList = response.data; // FIXME
+                    for (let i = 0; i < userList.length; i++) {
+                        fetchStockData(userList[i]);
+                    }
+                }
+            } catch (err) {
+                if (err.response.data.error) {
+                    console.error(err.response.data.error);
+                }
+                
+                userList = [];
+            }
         }
-    }, [])
+
+        if (!isLoading) {
+            getWatchlistData();
+        }
+    }, [isLoading])
 
 
     /**
@@ -138,12 +181,25 @@ const Watchlist = () => {
      * @param {*} id Request identifier used to find and delete the stock from the list.
      */
     const deleteListing = (id) => {
-        /*
-        const deleteData = {"userID": "fixme", "stockSymbol": stockList.filter(listing => listing.id == id)["symbol"] };
-        axios.delete(`stock/watchlist`, deleteData)
-            .then(response => {
-                // move up here
-            });*/
+        const symb = (stockList.filter(listing => listing.id == id))[0].symbol;
+        
+        const deleteSymb = async () => {
+            try {
+                const deleteData = {"userID": auth.userId, "stockSymbol": symb};
+                const response = await axios.delete(`${watchlistUrl}`, {data: deleteData});
+                if (response.status === 201) {
+                    console.log("Deleted " + symb);
+                }
+            } catch (err) {
+                if (err.response.data.error) {
+                    console.error(err.response.data.error);
+                } else {
+                    console.error(err);
+                }
+            }
+        }
+
+        deleteSymb();
 
         setStockList(
             stockList.filter(listing => listing.id !== id)
@@ -156,16 +212,22 @@ const Watchlist = () => {
      * @param {*} id Request identifier used to find and delete an error message.
      */
     const deleteErrorMessage = (id) => {
-        /*
-        const deleteData = {"userID": "fixme", "stockSymbol": stockList.filter(listing => listing.id == id)["symbol"] };
-        axios.delete(`stock/watchlist`, deleteData)
-            .then(response => {
-                // move up here
-            });*/
-        
         setError(
             error.filter(listing => listing.id !== id)
         );
+    }
+    
+    /**
+     * Check if a stock symbol has already been added
+     * @param {*} symb 
+     */
+    const checkIfStockExists = (symb) => {
+        for (let i = 0; i < stockList.length; i++) {
+            if (stockList[i].symbol == symb) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -256,7 +318,17 @@ const Watchlist = () => {
                 </div>
             ))}
 
-            {showAddMenu && <AddMenu visibleState={setShowAddMenu} fetchStockData={fetchStockData} />}
+            {showAddMenu && 
+                <AddMenu
+                    visibleState={setShowAddMenu}
+                    fetchStockData={fetchStockData}
+                    watchlistUrl={watchlistUrl}
+                    userId={auth.userId}
+                    checkIfStockExists={checkIfStockExists}
+                    setError={setError}
+                    randomNum={getRandomNum}
+                />
+            }
         </div>
     );
 }
@@ -310,20 +382,35 @@ const TemporaryServ = (symbol) => {
  * @param {*} param0 Props for the visibleState (whether to display or not) and function to get the stock data.
  * @returns Renderable HTML code for display.
  */
-const AddMenu = ({visibleState, fetchStockData}) => {
+const AddMenu = ({visibleState, fetchStockData, watchlistUrl, userId, checkIfStockExists, setError, randomNum}) => {
     const [inputSym, setInputSym] = useState("");
     
     const addStock = () => {
-        // insert code to add to user record
-        /*
-        const addData = {"userID": "fixme", "stockSymbol": stockList.filter(listing => listing.id == id)["symbol"] };
-        axios.post(`stock/watchlist`, addData)
-            .then(response => {
-                // move up here
-            });*/
+        if (checkIfStockExists(inputSym)) {
+            console.log("already exists");
+            setError(prevState => {
+                let objError = {"id": inputSym + randomNum(), "symbol": inputSym, "error": {message: "Symbol already added."}};
+                return [...prevState, objError];
+            })
+        } else {
+            fetchStockData(inputSym).then(async (symb) => {
+                try {
+                    const addData = {"userID": userId, "stockSymbol": symb};
+                    const response = await axios.post(`${watchlistUrl}`, addData);
+                    if (response.status === 201) {
+                        console.log("Added " + inputSym);
+                    }
+                } catch (err) {
+                    if (err.response.data.error) {
+                        console.error(err.response.data.error);
+                    } else {
+                        console.error(err);
+                    }
+                }
+            });
+        }
 
-        fetchStockData(inputSym);
-    }
+    };
 
     return (
         <div className={style.stockCard}>
