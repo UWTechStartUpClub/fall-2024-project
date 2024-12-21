@@ -98,13 +98,13 @@ const getStockData = async (symbol, functionType = 'TIME_SERIES_DAILY') => {
 // Helper function to get the correct time series key based on function type
 const getTimeSeriesKey = (functionType) => {
   const keyMap = {
-    'TIME_SERIES_DAILY': 'Time Series Daily',
+    'TIME_SERIES_DAILY': 'Time Series (Daily)',
     'TIME_SERIES_WEEKLY': 'Weekly Time Series',
     'TIME_SERIES_MONTHLY': 'Monthly Time Series',
     'GLOBAL_QUOTE': 'Global Quote',
     // Add more mappings as needed
   };
-  return keyMap[functionType] || 'Time Series Daily';
+  return keyMap[functionType] || 'Time Series (Daily)';
 };
 
 // Example usage with different function types

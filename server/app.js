@@ -1,5 +1,5 @@
 const express = require('express');
-const { getStockData } = require('./AlphaVantageService');
+const { getStockData, fetchStockData } = require('./AlphaVantageService');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const cors = require('cors');
