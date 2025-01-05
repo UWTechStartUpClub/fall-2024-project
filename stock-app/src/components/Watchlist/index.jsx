@@ -311,7 +311,10 @@ const Watchlist = () => {
                         <div>
                             <button
                                 className={style.btn1}
-                                onClick={() => {deleteSymb(listing["symbol"])}}>
+                                onClick={() => {
+                                    deleteSymb(listing["symbol"]);
+                                    deleteErrorMessage(listing["id"]);
+                                }}>
                                 Remove Symbol
                             </button>
                             <button

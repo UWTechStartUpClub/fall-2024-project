@@ -63,10 +63,19 @@ const getStockData = async (symbol, functionType = 'TIME_SERIES_DAILY') => {
         throw new Error(`API Error: ${data['Error Message']}`);
       }
 
+      // ***VALIDATION***
       // Validate response data structure
       const timeSeriesKey = getTimeSeriesKey(functionType);
       if (!data[timeSeriesKey]) {
         throw new Error(`No ${timeSeriesKey} data found in response`);
+      }
+      /* Global quote validation - check if the Global Quote block is empty or not
+       * by checking if it contains a symbol key. If not, the data might be malformed
+       * or missing altogether.
+      */
+     if (data[timeSeriesKey]
+      && (data[timeSeriesKey]["01. symbol"] === undefined || data[timeSeriesKey]["01. symbol"] === null)) {
+        throw new Error(`${timeSeriesKey} data for requested symbol was malformed or absent altogether.`);
       }
 
       return data;
