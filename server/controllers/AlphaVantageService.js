@@ -1,51 +1,152 @@
 const axios = require('axios');
-require('dotenv').config(); // Load API key from .env file
+require('dotenv').config();
 
-console.log('getting api key');
-const API_KEY = process.env.ALPHA_VANTAGE_API_KEY; // Declare with 'let' instead of 'const' to allow reassignment
+// Configuration
+const CONFIG = {
+  baseURL: 'https://www.alphavantage.co/query',
+  timeout: 10000, // 10 seconds timeout
+  maxRetries: 3,
+  retryDelay: 1000, // 1 second between retries
+};
+
+const API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
 if (!API_KEY) {
-  throw new Error('API Key is missing or invalid. Please provide a valid API key.');
+  throw new Error('API Key is missing. Please set ALPHA_VANTAGE_API_KEY in your .env file');
 }
 
-const BASE_URL = 'https://www.alphavantage.co/query?';
+// Create axios instance with default configuration
+const apiClient = axios.create({
+  baseURL: CONFIG.baseURL,
+  timeout: CONFIG.timeout,
+  headers: {
+    'User-Agent': 'StockDataClient/1.0',
+  }
+});
 
-// Function to fetch stock data
-const getStockData = async (symbol) => {
-  console.log(`Fetching stock data for symbol: ${symbol}`);
-  try {
-    const response = await axios.get(BASE_URL, {
-      params: {
-        function: 'TIME_SERIES_DAILY',  // need to make this into a variable where user chooses which function they want.
-        symbol: symbol,                 // Stock symbol, e.g., 'AAPL'
+// Helper function to delay execution
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Function to fetch stock data with retries
+const getStockData = async (symbol, functionType = 'TIME_SERIES_DAILY') => {
+  let lastError = null;
+  
+  for (let attempt = 1; attempt <= CONFIG.maxRetries; attempt++) {
+    try {
+      console.log(`Attempt ${attempt}: Fetching ${functionType} data for ${symbol}`);
+      
+      // Add params object to handle intraday interval
+      const params = {
+        function: functionType,
+        symbol: symbol,
         apikey: API_KEY
+      };
+
+      // Add interval parameter for intraday
+      if (functionType === 'TIME_SERIES_INTRADAY') {
+        params.interval = '5min';
       }
-    });
+      
+      const response = await apiClient.get('', { params });
 
-    console.log('API Response:', response.data);
+      // Rest of your existing error handling and response processing
+      const rateLimitLimit = response.headers['x-ratelimit-limit'];
+      const rateLimitRemaining = response.headers['x-ratelimit-remaining'];
+      if (rateLimitLimit && rateLimitRemaining) {
+        console.log(`API Rate Limit: ${rateLimitRemaining}/${rateLimitLimit} remaining`);
+      }
 
-    const data = response.data;
-    if (response.headers['X-RateLimit-Limit'] && response.headers['X-RateLimit-Remaining']) {
-      console.log(`API Rate Limit Status: ${response.headers['X-RateLimit-Remaining']} remaining out of ${response.headers['X-RateLimit-Limit']}`);
+      const data = response.data;
+
+      console.log('Full API Response Data:', data);
+
+      // Check for API-specific error responses
+      if (data.Note) {
+        throw new Error(`API Rate Limit: ${data.Note}`);
+      }
+
+      if (data['Error Message']) {
+        throw new Error(`API Error: ${data['Error Message']}`);
+      }
+
+      // Special handling for OVERVIEW function
+      if (functionType === 'OVERVIEW') {
+        if (!data.Symbol) {
+          console.error('Overview data missing Symbol:', data);
+          throw new Error('Invalid overview data received');
+        }
+        return data;
+      }
+
+      // ***VALIDATION***
+      // For other function types, validate the time series key
+      const timeSeriesKey = getTimeSeriesKey(functionType);
+      if (timeSeriesKey && !data[timeSeriesKey]) {
+        console.error('Expected data key missing:', timeSeriesKey);
+        console.error('Received data:', data);
+        throw new Error(`No ${timeSeriesKey} data found in response`);
+      }
+      /* Global quote validation - check if the Global Quote block is empty or not
+       * by checking if it contains a symbol key. If not, the data might be malformed
+       * or missing altogether.
+      */
+      if (data[timeSeriesKey]
+        && (data[timeSeriesKey]["01. symbol"] === undefined || data[timeSeriesKey]["01. symbol"] === null)) {
+        throw new Error(`${timeSeriesKey} data for requested symbol was malformed or absent altogether.`);
+      }
+
+      return data;
+
+    } catch (error) {
+      lastError = error;
+      console.error(`Attempt ${attempt} failed:`, error.message);
+
+      // Don't retry on certain errors
+      if (error.response?.status === 401) {
+        throw new Error('Invalid API key');
+      }
+
+      if (error.response?.status === 422) {
+        throw new Error('Invalid request parameters');
+      }
+
+      // If we haven't exceeded retry attempts, wait before trying again
+      if (attempt < CONFIG.maxRetries) {
+        const waitTime = CONFIG.retryDelay * attempt;
+        console.log(`Waiting ${waitTime}ms before retry...`);
+        await delay(waitTime);
+      }
     }
+  }
 
-    // Check if the response contains a rate limit message
-    if (data.Note) {
-      throw new Error('Rate limit exceeded. Please try again later.');
-    }
+  throw new Error(`Failed after ${CONFIG.maxRetries} attempts. Last error: ${lastError.message}`);
+};
 
-    if (data['Error Message']) {
-      throw new Error(data['Error Message']);
-    }
+// Helper function to get the correct time series key based on function type
+const getTimeSeriesKey = (functionType) => {
+  const keyMap = {
+    'TIME_SERIES_INTRADAY': 'Time Series (5min)',
+    'TIME_SERIES_DAILY': 'Time Series (Daily)',
+    'TIME_SERIES_WEEKLY': 'Weekly Time Series',
+    'TIME_SERIES_MONTHLY': 'Monthly Time Series',
+    'GLOBAL_QUOTE': 'Global Quote',
+    // Add more mappings as needed
+  };
+  return keyMap[functionType] || 'Time Series (Daily)';
+};
 
-    if (!data['Time Series (Daily)']) {
-      throw new Error('No time series data found');
-    }
-
-    return data;  // Process or filter the data here if needed
+// Example usage with different function types
+const fetchStockData = async (symbol, functionType) => {
+  try {
+    const data = await getStockData(symbol, functionType);
+    console.log('Successfully retrieved stock data');
+    return data;
   } catch (error) {
-    console.error('Error fetching stock data:', error);
+    console.error('Failed to fetch stock data:', error.message);
     throw error;
   }
 };
 
-module.exports = { getStockData };
+module.exports = {
+  getStockData,
+  fetchStockData
+};

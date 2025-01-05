@@ -1,5 +1,5 @@
 const express = require('express');
-const { getStockData, fetchStockData } = require('./AlphaVantageService');
+const { fetchStockData } = require('./controllers/AlphaVantageService');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const stockRoutes = require('./routes/stockRoutes');
@@ -30,56 +30,13 @@ app.use(express.static('public'));
 /** Define routes */
 
 /** Stock symbol route */
-
-// this is what we want to use
-// app.use('/stock/:symbol', stockRoutes);
-
-// this is working
-app.get('/stock/:symbol', async (req, res) => {
-  const symbol = req.params.symbol;
-  const functionType = req.query.function || 'TIME_SERIES_DAILY';
-
-  try {
-    console.log(`Processing request for ${symbol} with function type ${functionType}`);
-    const stockData = await fetchStockData(symbol, functionType);
-    res.json(stockData);
-  } catch (error) {
-    console.error('Error in stock route:', error);
-    
-    // Handle specific error cases
-    if (error.message.includes('Invalid API key')) {
-      return res.status(401).json({ error: 'Authentication failed' });
-    }
-    if (error.message.includes('Invalid request parameters')) {
-      return res.status(400).json({ error: 'Invalid request parameters' });
-    }
-    if (error.message.includes('API Rate Limit')) {
-      return res.status(429).json({ error: 'Rate limit exceeded. Please try again later.' });
-    }
-    
-    // Generic error response
-    res.status(500).json({ 
-      error: 'Error fetching stock data',
-      message: error.message 
-    });
-  }
-});
-
-/** About route */
-app.get('/about', (req, res) => {
-  res.render('about', { title: 'About Us' });
-});
-
-/** Contact route */
-app.get('/contact', (req, res) => {
-  res.render('contact', { title: 'Contact Us' });
-});
+app.use('/stock', stockRoutes);
 
 /** Auth routes */
 app.use('/auth', authRoutes);
 
 /** Watchlist routes */
-app.use('/watchlist', stockRoutes);
+app.use('/stock', stockRoutes);
 
 /** Contact form submission */
 app.post('/contact', (req, res) => {
