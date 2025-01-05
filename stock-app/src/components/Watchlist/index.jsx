@@ -107,41 +107,6 @@ const Watchlist = () => {
             }
         });
     }
-    
-    // TEMPORARY GET STOCK DATA HELPER FUNCTION
-    /*
-    const fetchStockData = (symb) => {
-        // random number generation for ID
-        const randomNum = getRandomNum();
-        const theId = symb + randomNum;
-
-        return new Promise((resolve) => {
-            try {
-                let response = TemporaryServ(symb);
-                // functional update
-                setStockList(prevState => {
-                    let objInsert = [...prevState,
-                        {
-                            "id": theId,
-                            "symbol": symb,
-                            "data": response
-                        }
-                    ];
-
-                    return objInsert;
-                });
-
-                resolve(symb);
-            } catch (err) {
-                console.error('Error occured fetching data', err);
-
-                setError(prevState => {
-                    let objError = {"id": theId, "symbol": symb, "error": err};
-                    return [...prevState, objError];
-                })
-            }
-        });
-    }*/
 
     /**
      * Load the user's initial list of saved watchlist stocks
@@ -342,50 +307,6 @@ const Watchlist = () => {
         </div>
     );
 }
-
-// ***TEMPORARY JSON "SERVER"***
-/*
-const TemporaryServ = (symbol) => {
-    const quotes = {
-        "IBM": {
-            "Global Quote": {
-                "01. symbol": "IBM",
-                "02. open": "232.6900",
-                "03. high": "233.0000",
-                "04. low": "229.1300",
-                "05. price": "230.1200",
-                "06. volume": "3872680",
-                "07. latest trading day": "2024-12-11",
-                "08. previous close": "231.7200",
-                "09. change": "-1.6000",
-                "10. change percent": "-0.6905%"
-            }
-        },
-    
-        "MSFT": {
-            "Global Quote": {
-                "01. symbol": "MSFT",
-                "02. open": "444.0500",
-                "03. high": "450.3500",
-                "04. low": "444.0500",
-                "05. price": "448.9900",
-                "06. volume": "19200208",
-                "07. latest trading day": "2024-12-11",
-                "08. previous close": "443.3300",
-                "09. change": "5.6600",
-                "10. change percent": "1.2767%"
-            }
-        }
-    };
-
-    if (quotes[symbol] === undefined) {
-        throw new Error("Unable to find stock: " + symbol);
-    }
-    
-    return quotes[symbol];
-}
-*/
-// ***END OF TEMPORARY FUNCTION***
 
 
 /**
