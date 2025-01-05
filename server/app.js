@@ -3,6 +3,7 @@ const { fetchStockData } = require('./controllers/AlphaVantageService');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const stockRoutes = require('./routes/stockRoutes');
+const watchlistRoutes = require('./routes/watchlistRoutes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -36,7 +37,7 @@ app.use('/stock', stockRoutes);
 app.use('/auth', authRoutes);
 
 /** Watchlist routes */
-app.use('/stock', stockRoutes);
+app.use('/watchlist', watchlistRoutes);
 
 /** Contact form submission */
 app.post('/contact', (req, res) => {
