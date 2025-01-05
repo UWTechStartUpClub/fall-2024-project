@@ -1,34 +1,151 @@
-.head {
-    color: #fff;
-    text-align: center;
-    font-weight: 600;
-    font-size: 22px;
-}
-
-/* Used on section tag. Moved up here in order to set margins on lower order tags */
-.newsStatsSectionWrap {
-   background-color: #18191A; 
-}
-
-.newsStatsContainer {
-    margin-left: 48px;
-    margin-right: 48px;
-    padding: 2px;
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    
-}
-
-/*
-.newsWrap, .glWrap {
-    border: 1px solid red;
-}
-*/
-
 .aboutParagraph {
     margin-left: 128px;
     margin-right: 128px;
     text-align: center;
     color:#18191A;
     font-size: 16px;
+}
+
+.header-button {
+    display: inline-block;
+    text-align: center;
+    color: black !important;
+    background-color: #198bd2;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0s ease;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.header-button:hover {
+    background-color: white;
+    transform: scale(1.05);
+}
+
+.header-button:active {
+    transform: scale(0.95);
+}
+
+.socialBar {
+    background-color: #18191A;
+    padding: 15px 3%;  /* Match navbar padding */
+    width: 100%;
+    text-align: center;
+}
+
+.socialBarContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.socialSection {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.socialText {
+    color: #e4e6eb;
+    font-size: 14px;
+}
+
+.socialLinks {
+    display: flex;
+    gap: 20px;
+}
+
+.socialLinks a {
+    color: #e4e6eb;
+    font-size: 20px;
+    transition: color 0.2s ease;
+}
+
+.socialLinks a:hover {
+    color: #198bd2;
+}
+
+.projectInfo {
+    color: #e4e6eb;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 780px) {
+    .socialBarContent {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .socialSection {
+        margin-bottom: 10px;
+    }
+}
+
+.graphicHeader {
+    height: 90vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+ }
+
+ .graphicHeader2 {
+    background-position: -50px center;
+ }
+ 
+ .headerContent {
+    width: 75%; 
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: calc(1% + 5vw);  /* Responsive movement */
+    max-width: 75%;
+}
+
+.headerContent h2 {
+    line-height: 0.5;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.headerContent p {
+    font-size: 1.0rem;
+    opacity: 0.9;
+    line-height: 0.5;
+    text-align: left;
+}
+
+.headerContentRight {
+    width: 75%; 
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: calc(1% + 5vw);  /* Responsive movement */
+    max-width: 75%;
+}
+
+.headerContentRight h2 {
+    line-height: 0.5;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.headerContentRight p {
+    font-size: 1.0rem;
+    opacity: 0.9;
+    line-height: 0.5;
+    text-align: right;
 }

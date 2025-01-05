@@ -11,16 +11,68 @@
 }
 
 nav {
+    gap: 10px;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
     justify-content: space-between;
     background: var(--primary-color);
     height: var(--border-height);
-    padding: var(--border-y-padding) 80px;
+    padding: var(--border-y-padding) 3%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     z-index: 1;
     transition: all 0.2s ease-in;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 2;
+}
+
+.search-container {
+    flex: 1;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top: 20px;
+}
+
+.search-container form {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 0 !important;
+    border: 1px solid #454545;
+    background: var(--primary-color);
+    transition: background 0.2s ease;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.search-bar:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-bar::placeholder {
+    color: var(--secondary-color);
+    opacity: 0.7;
+}
+
+.search-bar:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .logo {
@@ -28,15 +80,18 @@ nav {
     align-items: center;
     height: 100%;
     overflow: hidden;
+    margin-top: 5px;
 }
 
-
 .logo img {
-    height: 150%;
+    height: 105px;
     width: auto;
-    align-items: center;
     object-fit: contain;
+    transition: filter 0.2s ease;
+}
 
+.logo:hover img {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(95%) saturate(1234%) hue-rotate(176deg) brightness(91%) contrast(89%);
 }
 
 #nav-links {
@@ -57,15 +112,34 @@ nav {
     font-weight: 500;
 }
 
-.link-style:hover::after {
-    content: "";
-    width: 60%;
-    height: 2px;
-    background: var(--secondary-color);
-    position: absolute;
-    bottom: -4px;
-    left: 20px;
+.link-style:hover {
+    color: #198bd2;
+    transition: color 0.2s ease;
 }
+
+.login-button {
+    display: inline-block;
+    text-align: center;
+    color: black !important;/* Black text */
+    background-color: white; /* White background */
+    border: 2px solid black; /* Black border for emphasis */
+    border-radius: 20px; /* Slightly rounded corners for pill shape */
+    padding: 8px 16px; /* Adjust padding for a wider, pill-shaped button */
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0s ease;
+    cursor: pointer;
+    box-sizing: border-box; /* Ensures padding and borders are included in size */
+}
+
+.login-button:hover {
+    background-color: #198bd2;
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.login-button:active {
+    transform: scale(0.95); /* Slight shrink on click */
+}  
 
 #burger {
     display: none;
@@ -76,17 +150,22 @@ nav {
 }
 
 @media (max-width: 900px) {
-    nav {
-        padding-right: 35px;
-    }
-
-    .link-style {
-        /* padding: 3px;
-        margin: 3px; */
-    }
+    .search-container {
+        max-width: none;
+    } 
+    
 }
 
 @media screen and (max-width:780px) {
+    .nav-left {
+        flex: 1;
+        gap: 10px;
+    }
+
+    .search-container {
+        max-width: none;
+    } 
+
     #nav-links {
         display: flex;
         flex-direction: column;
@@ -98,12 +177,8 @@ nav {
         width: 250px;
         background-color: var(--primary-color);
         box-shadow: 0 40px 60px rgba(0, 0, 0, 0.1);
-        pad: 40px 0 0 10px;
         transition: 0.2s ease-in-out;
         height: 100vh;
-        /* opacity: 0.99; */
-        /* border-left: 1px solid rgba(255, 255, 255, 0.125); */
-        /* border-bottom: 1px solid rgba(255, 255, 255, 0.125); */
     }
 
     #link-container {
@@ -117,7 +192,6 @@ nav {
         height: 100vh;
         flex-wrap: nowrap;
     }
-
 
     .link-style {
         margin: 10px;

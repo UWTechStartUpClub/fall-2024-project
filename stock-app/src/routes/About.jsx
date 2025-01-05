@@ -15,7 +15,7 @@ import johnDiego from '../assets/images/Profile-Photos/johnDiego.jpeg';
 
 //add more team members if needed here
 const teamMembers = [
-    { name: 'Celestin Ryf', img: celestin, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
+    { name: 'Celestin Ryf', img: celestin, description: 'As President of the Tech Startup Club I lead full-stack projects, facilitate meetings, and manage team collaboration between front-end, back-end, and design groups.' },
     { name: 'Jacob Klymenko', img: jacobKlymenko, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
     { name: 'Nick Jordan', img: nickJordan, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
     { name: 'Primo Bambao', img: primoBambao, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...' },
