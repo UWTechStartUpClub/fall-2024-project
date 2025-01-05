@@ -1,41 +1,59 @@
 const express = require('express');
-const app = express();
-const { getStockData } = require('../controllers/AlphaVantageService'); // import the service function
+const router = express.Router();
+const { fetchStockData } = require('../controllers/AlphaVantageService');
 const { getWatchlist, addToWatchlist, deleteFromWatchlist } = require('../controllers/watchlist');
 
-const router = express.Router();
+// Stock data route
+router.get('/:symbol', async (req, res) => {
+  const symbol = req.params.symbol;
+  let functionType = req.query.function || 'TIME_SERIES_DAILY';
 
-// Define the /stock/:symbol route
-/*
-app.get('/stock/:symbol', async (req, res) => {
-  console.log('inside the get stock symbol route');
-  const symbol = req.params.symbol; // Get the stock symbol from the request URL
   try {
-    console.log('');
-    const stockData = await getStockData(symbol)
-    // respond not responding
-    res.json(stockData);  // Send the data as JSON
+    console.log(`Processing request for ${symbol} with function type ${functionType}`);
+    
+    try {
+      const [overviewData, marketData] = await Promise.all([
+        fetchStockData(symbol, 'OVERVIEW'),  // Always fetch overview
+        fetchStockData(symbol, functionType) // The service will handle intraday params internally
+      ]);
+
+      console.log('Overview data received:', !!overviewData);
+      console.log('Market data received:', !!marketData);
+
+      // Combine the data into a single response
+      const combinedData = {
+        overview: overviewData,
+        market_data: marketData
+      };
+
+      res.json(combinedData);
+    } catch (error) {
+      console.error('Error in Promise.all:', error);
+      throw error;
+    }
   } catch (error) {
-    res.status(500).send('Error fetching stock data');
-  }
-});*/
-
-// Get all watchlist symbols as a list
-router.get('/watchlist', async (req, res) => {
-  try {
-    const { userID } = req.query;
-    if (!userID) return res.status(400).json({ error: "User id is required" });
-
-    const watchlist = await getWatchlist(userID);
-    if (watchlist.length === 0) return res.status(400).json({ error: "Watchlist is empty" });
-
-    res.status(200).json(watchlist);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch watchlist" });
+    console.error('Error in stock route:', error);
+    
+    // Handle specific error cases
+    if (error.message.includes('Invalid API key')) {
+      return res.status(401).json({ error: 'Authentication failed' });
+    }
+    if (error.message.includes('Invalid request parameters')) {
+      return res.status(400).json({ error: 'Invalid request parameters' });
+    }
+    if (error.message.includes('API Rate Limit')) {
+      return res.status(429).json({ error: 'Rate limit exceeded. Please try again later.' });
+    }
+    
+    // Generic error response
+    res.status(500).json({ 
+      error: 'Error fetching stock data',
+      message: error.message 
+    });
   }
 });
 
-// Add a stock symbol to the watchlist
+// Watchlist routes
 router.post('/watchlist', async (req, res) => {
   try {
     const { userID, stockSymbol } = req.body;
@@ -51,7 +69,6 @@ router.post('/watchlist', async (req, res) => {
   }
 });
 
-// Delete a stock symbol from the watchlist
 router.delete('/watchlist', async (req, res) => {
   try {
     const { userID, stockSymbol } = req.body;

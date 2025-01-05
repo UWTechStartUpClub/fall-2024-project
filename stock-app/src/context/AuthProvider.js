@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setAuth(null);
+        window.location.reload();
         console.log("Logged out successfully");
     };
 

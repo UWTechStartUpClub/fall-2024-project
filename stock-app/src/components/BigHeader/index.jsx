@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';   // Add this import
 
 /**
  * Builds a block of HTML for a large header.
@@ -15,7 +16,6 @@ import React from 'react';
  * @returns Block of HTML representing a BigHeader
  */
 const BigHeader = ({headText, headSubtext, bgUrl, bgGradient, btnText, btnHref}) => {
-
     const cssGradient = "linear-gradient(rgba(4,9,30, 0.7), rgba(4,9,30, 0.7))";
 
     let theButton;
@@ -23,7 +23,7 @@ const BigHeader = ({headText, headSubtext, bgUrl, bgGradient, btnText, btnHref})
         && (btnHref == null || btnText === undefined)) {
         theButton = <></>;
     } else {
-        theButton = <a href={btnHref} className="hero-btn">{btnText}</a>
+        theButton = <Link to={btnHref} className="login-button">{btnText}</Link>;
     }
 
     let bgStyle;
@@ -34,7 +34,6 @@ const BigHeader = ({headText, headSubtext, bgUrl, bgGradient, btnText, btnHref})
     } else {
         bgStyle = {backgroundImage: "url(" + bgUrl + ")"};
     }
-
 
     return (
         <section style={bgStyle} className="headerMain">

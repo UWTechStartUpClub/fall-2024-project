@@ -2,7 +2,7 @@
     padding: 2px;
     border-top: 1px solid #454545;
     background-color: #18191a;
-    color: #adadad;
+    color: #fff;
 }
 
 .stockMainContent {
@@ -21,10 +21,6 @@
     margin-bottom: 12px;
 }
 
-.stockNameBlock {
-    margin-bottom: 24px;
-}
-
 /* Function Bar Styles */
 .functionBar {
     display: flex;
@@ -40,17 +36,23 @@
     gap: 2px;
 }
 
+.settingsContainer {
+    position: relative;
+    z-index: 1000;
+}
+
 .settingsButton {
     padding: 10px;
     background: none;
     border: none;
-    color: #adadad;
+    color: #fff;
     cursor: pointer;
     font-size: 14px;
     transition: color 0.2s;
 }
 
-.settingsButton:hover {
+.settingsButton:hover,
+.settingsButton.active {
     color: #198bd2;
 }
 
@@ -59,11 +61,107 @@
     opacity: 0.5;
 }
 
+.settingsDropdown {
+    position: fixed;
+    top: auto;
+    right: 3%;
+    background-color: #18191a;
+    border: 1px solid #454545;
+    border-radius: 4px;
+    min-width: 180px;
+    z-index: 1000;
+    margin-top: 4px;
+}
+
+.settingsOption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    color: #fff;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 20px;
+    margin-left: 10px;
+    top: 50%; /* Center the switch */
+    transform: translateY(-50%); /* Offset by half its height */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #454545;
+    transition: .2s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    transition: .2s;
+    border-radius: 50%;
+    z-index: 1; /* Ensure the circle stays on top of the text */
+}
+.slider:after {
+    content: "OFF";
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 10px;
+}
+
+.switch input:checked + .slider:before {
+    transform: translate(26px, -50%); /* Adjust movement for wider switch */
+    background-color: white;
+}
+
+.switch input:checked + .slider:after {
+    content: "ON";
+    right: auto;
+    left: 5px;
+    color: white;
+}
+
+.switch input:checked + .slider {
+    background-color: #198bd2;
+}
+
+.switch:hover .slider:before {
+    background-color: #198bd2;
+}
+
+.switch input:disabled + .slider {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .functionButton {
     padding: 10px 24px;
     background: none;
     border: none;
-    color: #adadad;
+    color: #fff;
     cursor: pointer;
     font-size: 14px;
     position: relative;
@@ -71,7 +169,7 @@
 }
 
 .functionButton:hover {
-    color: #ffffff;
+    color: #198bd2;
 }
 
 .functionButton.active {
@@ -95,6 +193,7 @@
 
 .stockPriceSummaryBox {
     border: 1px solid #454545;
+    background-color: #18191a;
     border-radius: 2px;
     padding: 8px;
 }
@@ -150,6 +249,7 @@
     padding: 16px;
     width: 100%;
     margin-top: 20px;
+    background-color: #1e1f20;
 }
 
 .stockStatsBox table {
@@ -161,12 +261,25 @@
     border-bottom: 1px solid #454545;
 }
 
-.stockStatsBox tr td:last-child {
-    text-align: right;
+.stockStatsBox td:first-child {
+    text-align: left; /* Only the first column stays left-aligned */
 }
 
 .stockStatsBox td {
     padding: 8px 4px;
+    text-align: right; /* Set all cells to right align by default */
+}
+
+/* Full data table styles */
+.stockStatsBox thead th {
+    padding: 8px 4px;
+    border-bottom: 2px solid #454545;
+    color: #fff;
+    text-align: right; /* Set all headers to right align by default */
+}
+
+.stockStatsBox thead th:first-child {
+    text-align: left; /* Only the first header stays left-aligned */
 }
 
 /* Global Quote Two-Column Layout */
@@ -195,7 +308,7 @@
 
 .column table tr {
     height: 20%;
-    border-bottom: 1px solid #454545;
+    border-bottom: 1px solid #fff;
 }
 
 .column td {
@@ -203,7 +316,6 @@
     vertical-align: middle;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .stockMainContent {
         margin-left: 2%;
@@ -233,4 +345,209 @@
         padding: 10px 16px;
         white-space: nowrap;
     }
+
+    .stockStatsBox {
+        overflow-x: auto;
+    }
+    
+    .stockStatsBox table {
+        min-width: 600px;
+    }
+}
+
+.stockNameBlock {
+    margin-bottom: 24px;
+}
+
+.stockDetails {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+}
+
+.separator {
+    color: #454545;
+}
+
+.descriptionSection {
+    margin-bottom: 24px;
+}
+
+.sectionTitle {
+    color: #198bd2;
+    font-size: 20px;
+    margin: 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #454545;
+    margin-bottom: 16px;
+}
+
+.descriptionContent {
+    color: #adadad;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.sentimentSection {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.sentimentChart {
+    background-color: #1e1f20;
+    border: 1px solid #454545;
+    border-radius: 2px;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.targetPrice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: #fff;
+}
+
+.priceValue {
+    color: #198bd2;
+    font-weight: 600;
+}
+
+.industryDetails {
+    color: #adadad;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.financialMetricsBox {
+    border: 1px solid #454545;
+    border-radius: 2px;
+    padding: 16px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.financialMetricsBox table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.financialMetricsBox tr {
+    border-bottom: 1px solid #454545;
+}
+
+.financialMetricsBox td {
+    padding: 8px 4px;
+}
+
+.financialMetricsBox td:first-child {
+    text-align: left;
+}
+
+.financialMetricsBox td:last-child {
+    text-align: right;
+}
+
+.financialMetricsSection {
+    margin: 32px 0;  /* Increased from 20px */
+}
+
+.metricGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;  /* Increased from 24px */
+    margin-bottom: 24px;  /* Increased from 16px */
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;  /* Increased from 4px */
+}
+
+.metricLabel {
+    color: #adadad;
+    font-size: 14px;  /* Increased from 12px */
+}
+
+.metricValue {
+    color: white;
+    font-size: 20px;  /* Increased from 16px */
+    font-weight: 500;
+}
+
+.companyLink {
+    color: #198bd2;  /* Your existing blue color */
+    text-decoration: none;
+}
+
+.companyLink:hover {
+    color: #198bd2;  /* Keep the same blue on hover */
+    text-decoration: underline;
+}
+
+h1 .companyLink {
+    color: #198bd2 !important;  /* Force blue color even within h1 */
+}
+
+.priceChartSection {
+    margin: 24px 0;
+}
+
+.chartContainer {
+    padding: 16px;
+    border: 1px solid #454545;
+    border-radius: 2px;
+    background-color: #1e1f20;
+}
+
+.customTooltip {
+    background-color: #1e1f20;
+    border: 1px solid #454545;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.tooltipDate {
+    color: #adadad;
+    margin: 0 0 4px 0;
+    font-size: 12px;
+}
+
+.tooltipPrice {
+    color: #ffffff;
+    margin: 0 0 4px 0;
+    font-weight: 500;
+}
+
+.tooltipVolume {
+    color: #adadad;
+    margin: 0;
+}
+
+.customBrush {
+    margin-top: 20px;
+}
+
+:global(.recharts-brush-slide) {
+    fill: #198bd2;
+    fill-opacity: 0.1;
+    stroke: none;
+}
+
+:global(.recharts-brush-traveller) {
+    fill: #18191A;
+    stroke: #454545;
+}
+
+:global(.recharts-brush-traveller rect) {
+    stroke-width: 1;
+}
+
+/* Style the brush texts */
+:global(.recharts-brush-texts) {
+    fill: #e4e6eb;
+    font-size: 12px;
 }

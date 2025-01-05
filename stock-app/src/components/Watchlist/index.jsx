@@ -228,16 +228,16 @@ const Watchlist = () => {
 
                                             <div>
                                                 <span className={style.stockSymbol}>
-                                                    {listing["data"]["Global Quote"]["01. symbol"]}
+                                                    {listing["data"]["market_data"]["Global Quote"]["01. symbol"]}
                                                 </span>
                                             </div>
                                             <div>
-                                                <span>{listing["data"]["Global Quote"]["05. price"]}</span>
+                                                <span>{listing["data"]["market_data"]["Global Quote"]["05. price"]}</span>
                                                 <br />
-                                                <span className={parseFloat(listing["data"]["Global Quote"]['09. change']) >= 0 ? style.stockGreen : style.stockRed}>
-                                                    {parseFloat(listing["data"]["Global Quote"]['09. change']) >= 0 ? '+' : ''}
-                                                    {listing["data"]["Global Quote"]['09. change']}
-                                                    &nbsp;({parseFloat(listing["data"]["Global Quote"]['09. change']) >= 0 ? '+' : ''}{listing["data"]["Global Quote"]['10. change percent']})
+                                                <span className={parseFloat(listing["data"]["market_data"]["Global Quote"]['09. change']) >= 0 ? style.stockGreen : style.stockRed}>
+                                                    {parseFloat(listing["data"]["market_data"]["Global Quote"]['09. change']) >= 0 ? '+' : ''}
+                                                    {listing["data"]["market_data"]["Global Quote"]['09. change']}
+                                                    &nbsp;({parseFloat(listing["data"]["market_data"]["Global Quote"]['09. change']) >= 0 ? '+' : ''}{listing["data"]["market_data"]["Global Quote"]['10. change percent']})
                                                 </span>
                                             </div>
 
